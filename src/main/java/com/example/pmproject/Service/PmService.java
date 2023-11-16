@@ -43,6 +43,7 @@ public class PmService {
         }
 
         return paging.map(pm -> PmDTO.builder()
+                .pmId(pm.getPmId())
                 .type(pm.getType())
                 .location(pm.getLocation())
                 .img(pm.getImg())
@@ -51,11 +52,11 @@ public class PmService {
     }
 
     public void register(PmDTO pmDTO, MultipartFile imgFile) throws IOException {
-        String orginalFileName = imgFile.getOriginalFilename();
+        String originalFileName = imgFile.getOriginalFilename();
         String newFileName = "";
 
-        if(orginalFileName != null) {
-            newFileName = imgService.uploadFile(pmImgUploadLocation, orginalFileName, imgFile.getBytes());
+        if(originalFileName != null) {
+            newFileName = imgService.uploadFile(pmImgUploadLocation, originalFileName, imgFile.getBytes());
         }
         pmDTO.setImg(newFileName);
         Pm pm=modelMapper.map(pmDTO, Pm.class);

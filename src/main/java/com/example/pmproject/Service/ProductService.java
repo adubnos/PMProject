@@ -44,11 +44,11 @@ public class ProductService {
     }
 
     public void register(ProductDTO productDTO, MultipartFile imgFile) throws IOException {
-        String orginalFileName = imgFile.getOriginalFilename();
+        String originalFileName = imgFile.getOriginalFilename();
         String newFileName = "";
 
-        if(orginalFileName != null) {
-            newFileName = imgService.uploadFile(productImgUploadLocation, orginalFileName, imgFile.getBytes());
+        if(originalFileName != null) {
+            newFileName = imgService.uploadFile(productImgUploadLocation, originalFileName, imgFile.getBytes());
         }
         productDTO.setImg(newFileName);
         Product product=modelMapper.map(productDTO, Product.class);

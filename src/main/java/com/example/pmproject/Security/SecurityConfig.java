@@ -32,6 +32,7 @@ public class SecurityConfig {
 
         http.authorizeRequests()
                 .antMatchers("/member/**").hasRole("USER")
+                .antMatchers("/pm/**").hasRole("USER")
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/login", "/register").anonymous()
                 .anyRequest().permitAll();

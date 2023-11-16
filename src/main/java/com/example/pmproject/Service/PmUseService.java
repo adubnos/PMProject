@@ -32,6 +32,7 @@ public class PmUseService {
         Page<PmUse> paging=pmUseRepository.findByMemberNameList(memberName, PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "pmUseId")));
 
         return paging.map(pmUse -> PmUseDTO.builder()
+                .pmUseId(pmUse.getPmUseId())
                 .isUse(pmUse.getIsUse())
                 .startLocation(pmUse.getStartLocation())
                 .finishLocation(pmUse.getFinishLocation())

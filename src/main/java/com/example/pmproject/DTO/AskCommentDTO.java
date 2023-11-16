@@ -10,21 +10,17 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class askDTO {
+public class AskCommentDTO {
 
-    private Long askId;
+    private Long askCommentId;
 
-    @NotEmpty(message = "문의 제목은 필수 입력 사항입니다.")
-    private String title;
-
-    private Integer type;
-
-    @NotEmpty(message = "문의 내용은 필수 입력 사항입니다.")
-    private String content;
+    private Long ask_id;
 
     private String member_name;
+
+    @NotEmpty(message = "답변 내용은 필수 입력 사항입니다.")
+    private String content;
 
     private LocalDateTime regDate;
     private LocalDateTime modDate;
 }
-
