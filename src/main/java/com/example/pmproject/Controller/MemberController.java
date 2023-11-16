@@ -73,10 +73,14 @@ public class MemberController {
         }
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String result = memberService.update(memberUpdateDTO, userDetails.getUsername());
-
-        if(result==null) {
-            model.addAttribute("wrongPwd", "기존 비밀번호가 맞지 않습니다.");
+        try {
+            String result = memberService.update(memberUpdateDTO, userDetails.getUsername());
+            if(result==null) {
+                model.addAttribute("wrongPwd", "기존 비밀번호가 맞지 않습니다.");
+                return "member/update";
+            }
+        } catch (IllegalStateException e) {
+            model.addAttribute("error", e.getMessage());
             return "member/update";
         }
 

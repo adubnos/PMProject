@@ -46,6 +46,7 @@
                                 <input type="text" class="form-control" id="name" name="name" th:value="${memberDTO.name}" required>
                             </div>
                             <p class="text-danger" th:if="${#fields.hasErrors('memberUpdateDTO.name')}" th:errors="*{MemberUpdateDTO.name}"></p>
+                            <p class="text-danger" th:if="${error}" th:text="${error}"></p>
                             <div class="mb-3">
                                 <label class="form-label" for="address">주소 : </label>
                                 <input type="text" class="form-control" id="address" name="address" th:field="*{memberDTO.address}">

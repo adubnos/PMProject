@@ -23,13 +23,13 @@ public class Member extends BaseEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "member_SEQ")
     private Long memberId; //멤버 번호
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email; //멤버 이메일(아이디)
 
     @Column(nullable = false)
     private String password; //멤버 비밀번호
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name; //멤버 닉네임
 
     @Column

@@ -1,0 +1,52 @@
+a.card.product-card {
+    text-decoration: none;
+    color: inherit;
+}
+a.card.product-card:focus, a.card.product-card:active {
+    text-decoration: none;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+}
+
+.container {
+    margin-top: 30px;
+}
+
+h2 {
+    color: #ff4400;
+}
+
+p {
+    color: #495057;
+}
+
+.dropdown {
+    margin-bottom: 20px;
+}
+
+.product-card {
+    margin-bottom: 30px;
+}
+
+.card-title {
+    color: #007bff;
+
+}
+
+.card-text {
+    color: #40464b;
+
+}
+
+.back-button {
+    font-size: 18px;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

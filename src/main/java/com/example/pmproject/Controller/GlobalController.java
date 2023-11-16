@@ -20,7 +20,7 @@ public class GlobalController {
 
     @GetMapping("/")
     public String main() {
-        return "index";
+        return "pmmain1";
     }
 
     @GetMapping("/login")

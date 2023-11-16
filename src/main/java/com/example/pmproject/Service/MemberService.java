@@ -3,10 +3,9 @@ package com.example.pmproject.Service;
 import com.example.pmproject.DTO.MemberDTO;
 import com.example.pmproject.DTO.MemberUpdateDTO;
 import com.example.pmproject.Entity.Member;
-import com.example.pmproject.Entity.PmUse;
 import com.example.pmproject.Repository.MemberRepository;
-import com.example.pmproject.Repository.PmUseRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,8 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -59,10 +56,32 @@ public class MemberService {
             return null;
         }
         memberUpdateDTO.setNewPassword(passwordEncoder.encode(memberUpdateDTO.getNewPassword()));
-        Member modify = modelMapper.map(memberUpdateDTO, Member.class);
+        modelMapper.map(memberUpdateDTO.getNewPassword(), member.getPassword());
+        Member modify = Member.builder()
+                .memberId(member.getMemberId())
+                .email(memberUpdateDTO.getEmail())
+                .password(memberUpdateDTO.getNewPassword())
+                .name(memberUpdateDTO.getName())
+                .address(memberUpdateDTO.getAddress())
+                .tel(memberUpdateDTO.getTel())
+                .findPwdHint(member.getFindPwdHint())
+                .findPwdAnswer(member.getFindPwdAnswer())
+                .role(member.getRole())
+                .build();
+        if(!member.getName().equals(memberUpdateDTO.getName())){
+            validateDuplicateMember(modify);
+        }
         memberRepository.save(modify);
 
         return modify.getEmail();
+    }
+
+
+    private void validateDuplicateMember(Member modify) {
+
+        memberRepository.findByName(modify.getName()).ifPresent(existingMember -> {
+            throw new IllegalStateException("이미 존재하는 닉네임입니다.");
+        });
     }
 
     public boolean withdrawal(String email, String password) {

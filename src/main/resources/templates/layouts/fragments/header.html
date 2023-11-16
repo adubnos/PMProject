@@ -25,6 +25,9 @@
                     <li sec:authorize="isAuthenticated()" class="nav-item">
                         <a class="nav-link" href="/logout">로그아웃</a>
                     </li>
+                    <li sec:authorize="isAuthenticated()" class="nav-item">
+                        <a class="nav-link" href="/logout">로그아웃</a>
+                    </li>
                     <li sec:authorize="hasRole('ADMIN')" class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">관리자</a>
                         <ul class="dropdown-menu">
