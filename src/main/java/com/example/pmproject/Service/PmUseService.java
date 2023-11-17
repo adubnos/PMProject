@@ -29,7 +29,15 @@ public class PmUseService {
     public Page<PmUseDTO> pmUseDTOS(String memberName, Pageable pageable) {
         int page = pageable.getPageNumber()-1;
         int pageLimit=5;
-        Page<PmUse> paging=pmUseRepository.findByMemberNameList(memberName, PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "pmUseId")));
+
+        Page<PmUse> paging;
+
+        if(memberName != null) {
+            paging=pmUseRepository.findByMemberNameList(memberName, PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "pmUseId")));
+        }else {
+            paging=pmUseRepository.findAll(PageRequest.of(page,pageLimit, Sort.by(Sort.Direction.DESC,"pmUseId")));
+        }
+
 
         return paging.map(pmUse -> PmUseDTO.builder()
                 .pmUseId(pmUse.getPmUseId())

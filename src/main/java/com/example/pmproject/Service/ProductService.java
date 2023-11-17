@@ -29,13 +29,21 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final ModelMapper modelMapper=new ModelMapper();
     
-    public Page<ProductDTO> productDTOS(Pageable pageable) {
+    public Page<ProductDTO> productDTOS(String keyword, Pageable pageable) {
         int page=pageable.getPageNumber()-1;
         int pageLimit=6;
-        
-        Page<Product> paging=productRepository.findAll(PageRequest.of(page, pageLimit, Sort.Direction.ASC, "productId"));
+
+        Page<Product> paging;
+
+        if(keyword != null) {
+            paging=productRepository.findByNameContains(keyword, PageRequest.of(page, pageLimit, Sort.Direction.ASC, "productId"));
+        }else {
+            paging=productRepository.findAll(PageRequest.of(page, pageLimit, Sort.Direction.ASC, "productId"));
+        }
+
         
         return paging.map(product -> ProductDTO.builder()
+                .productId(product.getProductId())
                 .name(product.getName())
                 .content(product.getContent())
                 .price(product.getPrice())

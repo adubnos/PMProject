@@ -37,7 +37,7 @@ public class PmService {
         Page<Pm> paging;
 
         if(keyword != null) {
-            paging=pmRepository.searchByLocation(keyword, PageRequest.of(page, pageLimit, Sort.Direction.ASC, "pmId"));
+            paging=pmRepository.findByLocation(keyword, PageRequest.of(page, pageLimit, Sort.Direction.ASC, "pmId"));
         }else {
             paging=pmRepository.findAll(PageRequest.of(page, pageLimit, Sort.Direction.ASC, "pmId"));
         }
@@ -59,6 +59,7 @@ public class PmService {
             newFileName = imgService.uploadFile(pmImgUploadLocation, originalFileName, imgFile.getBytes());
         }
         pmDTO.setImg(newFileName);
+        pmDTO.setIsUse(true);
         Pm pm=modelMapper.map(pmDTO, Pm.class);
         pmRepository.save(pm);
     }

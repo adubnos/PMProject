@@ -19,13 +19,16 @@ public class Pm {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pm_SEQ")
     private Long pmId;
 
+    @Column(nullable = false)
+    private String name;
+
     @Column
     private Integer type;
 
     @Column
     private Boolean isUse;
 
-    @Column
+    @Column(nullable = false)
     private String location;
 
     @Column

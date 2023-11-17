@@ -18,18 +18,23 @@
                 <div class="container-fluid">
                     <ul class="navbar-nav">
                         <li class="nav-item mt-3" style="text-align: center">
-                            <a class="nav-link" href="/member/info">
-                                회원 정보
+                            <a class="nav-link" href="/admin/member">
+                                회원 목록
                             </a>
                         </li>
                         <li class="nav-item" style="text-align: center">
-                            <a class="nav-link" href="/member/pmUse">
-                                Pm 사용내역
+                            <a class="nav-link" href="/admin/pm">
+                                Pm 목록
                             </a>
                         </li>
                         <li class="nav-item" style="text-align: center">
-                            <a class="nav-link" href="/member/ask">
-                                문의 내역
+                            <a class="nav-link" href="/admin/pmUse">
+                                Pm 사용목록
+                            </a>
+                        </li>
+                        <li class="nav-item" style="text-align: center">
+                            <a class="nav-link" href="/admin/ask">
+                                문의 목록
                             </a>
                         </li>
                     </ul>
@@ -44,6 +49,7 @@
                                 <th>제목</th>
                                 <th>작성 일자</th>
                                 <th>답변 일자</th>
+                                <th>상태</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -52,6 +58,14 @@
                                 <td th:text="${askDTOS.title}"></td>
                                 <td th:text="${#temporals.format(askDTOS.regDate, 'yyyy/MM/dd')}"></td>
                                 <td th:text="${#temporals.format(askDTOS.modDate, 'yyyy/MM/dd')}"></td>
+                                <td>
+                                    <span th:if="${askDTOS.isAsk}">
+                                        <button type="button" class="btn btn-outline-secondary" disabled>답변완료</button>
+                                    </span>
+                                    <span th:unless="${askDTOS.isAsk}">
+                                        <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/ask/detail(askId=${askDTOS.askId})'|">답변하기</button>
+                                    </span>
+                                </td>
                             </tr>
                             </tbody>
                         </table>

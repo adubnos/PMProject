@@ -1,5 +1,6 @@
 package com.example.pmproject.Service;
 
+import com.example.pmproject.Constant.Role;
 import com.example.pmproject.DTO.MemberDTO;
 import com.example.pmproject.DTO.MemberUpdateDTO;
 import com.example.pmproject.Entity.Member;
@@ -29,6 +30,7 @@ public class MemberService {
         Page<Member> paging=memberRepository.findAll(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.ASC,"memberId")));
 
         return paging.map(member -> MemberDTO.builder()
+                .memberId(member.getMemberId())
                 .email(member.getEmail())
                 .name(member.getName())
                 .regDate(member.getRegDate())
@@ -93,6 +95,11 @@ public class MemberService {
         }else {
             return false;
         }
+    }
+
+    public void adminWithdrawal(String email) {
+        Member member = memberRepository.findByEmail(email).orElseThrow();
+        memberRepository.delete(member);
     }
 
 

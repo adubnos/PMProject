@@ -38,21 +38,6 @@ public class MemberController {
     private final PmUseService pmUseService;
     private final AskService askService;
 
-    @GetMapping("/list")
-    public String list(@PageableDefault(page=1) Pageable pageable, Model model) {
-        Page<MemberDTO> memberDTOS=memberService.memberDTOS(pageable);
-
-        int blockLimit=5;
-
-        int startPage=(((int)(Math.ceil((double)pageable.getPageNumber()/blockLimit)))-1)*blockLimit+1;
-        int endPage=Math.min((startPage+blockLimit-1), memberDTOS.getTotalPages());
-
-        model.addAttribute("memberDTOS", memberDTOS);
-        model.addAttribute("startPage", startPage);
-        model.addAttribute("endPage", endPage);
-
-        return "member/list";
-    }
 
     @GetMapping("/info")
     public String memberInfo(Model model, Authentication authentication) {

@@ -13,6 +13,6 @@ import java.util.List;
 public interface PmRepository extends JpaRepository<Pm, Long> {
 
     @Query("SELECT p FROM Pm p WHERE p.location Like %:keyword% And p.isUse = true")
-    Page<Pm> searchByLocation(@Param("keyword") String keyword, Pageable pageable);
+    Page<Pm> findByLocation(@Param("keyword") String keyword, Pageable pageable);
 
 }

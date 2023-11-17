@@ -24,7 +24,13 @@ public class AskService {
         int page=pageable.getPageNumber()-1;
         int pageLimit=5;
 
-        Page<Ask> paging=askRepository.findByMemberNameList(memberName, PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "askId")));
+        Page<Ask> paging;
+        if(memberName != null) {
+            paging=askRepository.findByMemberNameList(memberName, PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "askId")));
+        }else {
+            paging=askRepository.findAll(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "askId")));
+        }
+
 
         return paging.map(ask -> AskDTO.builder()
                 .askId(ask.getAskId())

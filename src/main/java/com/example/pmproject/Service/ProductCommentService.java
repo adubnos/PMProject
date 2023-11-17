@@ -60,7 +60,7 @@ public class ProductCommentService {
         String commentAuthorEmail=productComment.getMember().getEmail();
 
         if (!currentUser.getEmail().equals(commentAuthorEmail)) {
-            // 현재 사용자가 작성자가 아닌 경우, 예외를 throw하거나 적절히 처리
+            // 현재 사용자가 작성자가 아닌 경우, 예외를 throw 하거나 적절히 처리
             throw new AccessDeniedException("이 댓글을 수정할 권한이 없습니다");
         }
 
