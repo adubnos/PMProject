@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ListController {
 
     private final PmUseService pmUseService;
-    private final ProductService productService;
     private final AskService askService;
 
 
@@ -36,24 +35,6 @@ public class ListController {
 
         return "admin/pmUse/list";
     }
-
-    @GetMapping("/list/product")
-    public String productList(@PageableDefault(page=1) Pageable pageable, Model model) {
-        Page<ProductDTO> productDTOS=productService.productDTOS(null, pageable);
-
-        int blockLimit=10;
-
-        int startPage=(((int)(Math.ceil((double)pageable.getPageNumber()/blockLimit)))-1)*blockLimit+1;
-        int endPage=Math.min((startPage+blockLimit-1), productDTOS.getTotalPages());
-
-        model.addAttribute("productDTOS", productDTOS);
-        model.addAttribute("startPage", startPage);
-        model.addAttribute("endPage", endPage);
-
-        return "admin/product/list";
-    }
-
-
 
     @GetMapping("/list/ask")
     public String askList(@PageableDefault(page=1) Pageable pageable, Model model) {

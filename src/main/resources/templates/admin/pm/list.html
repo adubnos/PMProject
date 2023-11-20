@@ -64,7 +64,7 @@
                                 </td>
                                 <td th:text="${pmDTOS.title}"></td>
                                 <td th:text="${pmDTOS.location}"></td>
-                                <td><img th:src="|/images/pm/@{${pmDTOS.img}}|" width="200" height="200" alt="PM 이미지 없음"></td>
+                                <td><img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}/${pmDTOS.img}|" width="200" height="200" alt="PM 이미지 없음"></td>
                                 <td>
                                     <span>
                                         <button type="button" class="btn btn-outline-secondary" th:onclick="|location.href='@{/admin/pm/detail(pmId=${pmDTOS.pmId})}'|">자세히</button>

@@ -5,6 +5,7 @@ import com.example.pmproject.DTO.ProductDTO;
 import com.example.pmproject.Entity.Product;
 import com.example.pmproject.Entity.Product;
 import com.example.pmproject.Repository.ProductRepository;
+import com.example.pmproject.Util.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,7 +26,7 @@ public class ProductService {
     
     @Value("${productImgUploadLocation}")
     private String productImgUploadLocation;
-    private final imgService imgService;
+    private final S3Uploader s3Uploader;
     private final ProductRepository productRepository;
     private final ModelMapper modelMapper=new ModelMapper();
     
@@ -56,7 +57,7 @@ public class ProductService {
         String newFileName = "";
 
         if(originalFileName != null) {
-            newFileName = imgService.uploadFile(productImgUploadLocation, originalFileName, imgFile.getBytes());
+            newFileName = s3Uploader.upload(imgFile, productImgUploadLocation);
         }
         productDTO.setImg(newFileName);
         Product product=modelMapper.map(productDTO, Product.class);
@@ -77,10 +78,10 @@ public class ProductService {
 
         if(originalFileName.length() != 0) {
             if(deleteFile.length() != 0) {
-                imgService.deleteFile(productImgUploadLocation, deleteFile);
+                s3Uploader.deleteFile(deleteFile, productImgUploadLocation);
             }
 
-            newFileName = imgService.uploadFile(productImgUploadLocation, originalFileName, imgFile.getBytes());
+            newFileName = s3Uploader.upload(imgFile, productImgUploadLocation);
             productDTO.setImg(newFileName);
         }
         productDTO.setProductId(product.getProductId());
@@ -89,9 +90,9 @@ public class ProductService {
         productRepository.save(modify);
     }
 
-    public void delete(Long productId) {
+    public void delete(Long productId) throws IOException {
         Product product = productRepository.findById(productId).orElseThrow();
-        imgService.deleteFile(productImgUploadLocation, product.getImg());
+        s3Uploader.deleteFile(product.getImg(), productImgUploadLocation);
 
         productRepository.deleteById(productId);
     }

@@ -5,6 +5,7 @@ import com.example.pmproject.Entity.Pm;
 import com.example.pmproject.Entity.PmUse;
 import com.example.pmproject.Repository.PmRepository;
 import com.example.pmproject.Repository.PmUseRepository;
+import com.example.pmproject.Util.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,7 +27,7 @@ public class PmService {
 
     @Value("${pmImgUploadLocation}")
     private String pmImgUploadLocation;
-    private final imgService imgService;
+    private final S3Uploader s3Uploader;
     private final PmRepository pmRepository;
     private final ModelMapper modelMapper=new ModelMapper();
 
@@ -56,7 +57,7 @@ public class PmService {
         String newFileName = "";
 
         if(originalFileName != null) {
-            newFileName = imgService.uploadFile(pmImgUploadLocation, originalFileName, imgFile.getBytes());
+            newFileName = s3Uploader.upload(imgFile, pmImgUploadLocation);
         }
         pmDTO.setImg(newFileName);
         pmDTO.setIsUse(true);
@@ -78,10 +79,10 @@ public class PmService {
 
         if(originalFileName.length() != 0) {
             if(deleteFile.length() != 0) {
-                imgService.deleteFile(pmImgUploadLocation, deleteFile);
+                s3Uploader.deleteFile(deleteFile, pmImgUploadLocation);
             }
 
-            newFileName = imgService.uploadFile(pmImgUploadLocation, originalFileName, imgFile.getBytes());
+            newFileName = s3Uploader.upload(imgFile, pmImgUploadLocation);
             pmDTO.setImg(newFileName);
         }
         pmDTO.setPmId(pm.getPmId());
@@ -90,9 +91,9 @@ public class PmService {
         pmRepository.save(modify);
     }
 
-    public void delete(Long pmId) {
+    public void delete(Long pmId) throws IOException {
         Pm pm = pmRepository.findById(pmId).orElseThrow();
-        imgService.deleteFile(pmImgUploadLocation, pm.getImg());
+        s3Uploader.deleteFile(pm.getImg(), pmImgUploadLocation);
 
         pmRepository.deleteById(pmId);
     }

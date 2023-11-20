@@ -60,7 +60,7 @@
                                 <td th:text="${shopDTOS.title}"></td>
                                 <td th:text="${shopDTOS.location}"></td>
                                 <td th:text="${shopDTOS.tel}"></td>
-                                <td><img th:src="|/images/shop/@{${shopDTOS.img}}|" width="200" height="200" alt="매장 이미지 없음"></td>
+                                <td><img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}/${shopDTOS.img}|" width="200" height="200" alt="매장 이미지 없음"></td>
                                 <td>
                                     <span>
                                         <button type="button" class="btn btn-outline-secondary" th:onclick="|location.href='@{/admin/shop/detail(shopId=${shopDTOS.shopId})}'|">자세히</button>

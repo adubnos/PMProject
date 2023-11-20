@@ -57,7 +57,7 @@
                             <tr th:each="productDTOS:${propuctDTOS}">
                                 <input type="hidden" th:text="${productDTOS.productId}">
                                 <td th:text="${productDTOS.name}"></td>
-                                <td><img th:src="|/images/product/@{${productDTOS.img}}|" width="200" height="200" alt="제품 이미지 없음"></td>
+                                <td><img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}/${productDTOS.img}|" width="200" height="200" alt="제품 이미지 없음"></td>
                                 <td th:text="${productDTOS.price}"></td>
                                 <td>
                                     <span>
