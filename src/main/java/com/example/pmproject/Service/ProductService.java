@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -30,19 +31,19 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final ModelMapper modelMapper=new ModelMapper();
     
-    public Page<ProductDTO> productDTOS(String keyword, Pageable pageable) {
+    public Page<ProductDTO> productDTOS(Pageable pageable, String order) {
         int page=pageable.getPageNumber()-1;
         int pageLimit=6;
 
         Page<Product> paging;
 
-        if(keyword != null) {
-            paging=productRepository.findByNameContains(keyword, PageRequest.of(page, pageLimit, Sort.Direction.ASC, "productId"));
-        }else {
+        if(Objects.equals(order, "")) {
             paging=productRepository.findAll(PageRequest.of(page, pageLimit, Sort.Direction.ASC, "productId"));
+        }else {
+            paging=productRepository.findAll(PageRequest.of(page, pageLimit, Sort.Direction.valueOf(order), "price"));
         }
 
-        
+
         return paging.map(product -> ProductDTO.builder()
                 .productId(product.getProductId())
                 .name(product.getName())

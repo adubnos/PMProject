@@ -21,7 +21,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class S3Uploader {
 
-    private final AmazonS3 amazonS3;
+    private final AmazonS3Client amazonS3Client;
 
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;
@@ -34,7 +34,7 @@ public class S3Uploader {
     public void deleteFile(String deleteFile, String dirName) throws IOException {
         String fileName = dirName + "/" + deleteFile;
         try {
-            amazonS3.deleteObject(bucket, fileName);
+            amazonS3Client.deleteObject(bucket, fileName);
         } catch (SdkClientException e) {
             throw new IOException("Error delete file from S3", e);
         }
@@ -50,9 +50,9 @@ public class S3Uploader {
     }
 
     private String putS3(File uploadFile, String fileName) {
-        amazonS3.putObject(bucket, fileName, uploadFile);
+        amazonS3Client.putObject(bucket, fileName, uploadFile);
 
-        return amazonS3.getUrl(bucket, fileName).toString();
+        return amazonS3Client.getUrl(bucket, fileName).toString();
     }
 
     private void removeNewFile(File targetFile) {

@@ -31,41 +31,42 @@
                 <li><a class="dropdown-item" href="#" onclick="sortProducts('desc')">높은 가격순</a></li>
             </ul>
         </div>
+        <script type="text/javascript">
+            function sortProducts(order) {
+                var url = '/member/product/list?page=' + [[${productDTOS.number + 1}]] + '&order=' + order;
+                window.location.href = url;
+            }
+        </script>
         <hr>
-        <div class="row">
-            <div class="col-md-4">
-                <a class="card product-card" href="/product/detail">
-                    <img src="product1.jpg" class="card-img-top" alt="상품 1">
+        <div class="row" id="productCardContainer">
+            <div class="col-md-4" th:each="productDTOS:${productDTOS}">
+                <a class="card product-card" th:href="@{/member/product/detail(productId=${productDTOS.productId})}">
+                    <input type="hidden" th:text="${productDTOS.productId}">
+                    <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}/${productDTOS.img}|" class="card-img-top" alt="상품 이미지 없음">
                     <div class="card-body">
-                        <h5 class="card-title">상품 1</h5>
-                        <p class="card-text">상품에 대한 간단한 설명</p>
-                        <p class="card-text"><b>5,000원</b></p>
+                        <h5 class="card-title" th:text="${productDTOS.name}">test</h5>
+                        <p class="card-text" th:text="${productDTOS.price}">test</p>
                     </div>
                 </a>
             </div>
         </div>
+        <div class="container mt-3">
+            <ul class="pagination mt-3">
+                <li class="page-item"><a class="page-link" th:href="@{/product/list(page=1)}"><<</a></li>
+                <li class="page-item"><a class="page-link" th:href="${productDTOS.first} ? '#' : @{/product/list(page=${productDTOS.number})}"><</a></li>
+                <span th:each="page:${#numbers.sequence(startPage, endPage)}">
+                    <li class="page-item active" th:if="${page == productDTOS.number+1}">
+                        <a class="page-link" href="#" th:text="${page}"></a>
+                    </li>
+                    <li class="page-item" th:unless="${page == productDTOS.number+1}">
+                        <a class="page-link" th:href="@{/product/list(page=${page})}" th:text="${page}"></a>
+                    </li>
+                </span>
+                <li class="page-item"><a class="page-link" th:href="${productDTOS.last} ? '#' : @{/product/list(page=${productDTOS.number+2})}">></a></li>
+                <li class="page-item"><a class="page-link" th:href="@{/product/list(page=${productDTOS.totalPages})}">>></a></li>
+            </ul>
+        </div>
     </div>
-    <script>
-        function sortProducts(order) {
-            var productsContainer = document.querySelector('.row');
-            var products = Array.from(productsContainer.children);
-
-            products.sort(function (a, b) {
-                var priceA = parseFloat(a.querySelector('.card-text b').innerText.replace(',', '').replace('원', ''));
-                var priceB = parseFloat(b.querySelector('.card-text b').innerText.replace(',', '').replace('원', ''));
-
-                if (order === 'asc') {
-                    return priceA - priceB;
-                } else {
-                    return priceB - priceA;
-                }
-            });
-
-            products.forEach(function (product) {
-                productsContainer.appendChild(product);
-            });
-        }
-    </script>
 </div>
 </body>
 </html>

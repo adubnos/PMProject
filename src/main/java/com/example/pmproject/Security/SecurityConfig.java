@@ -30,8 +30,9 @@ public class SecurityConfig {
                 .csrf().disable()
                 .headers().frameOptions().disable();
 
+
         http.authorizeRequests()
-                .antMatchers("/member/**").hasRole("USER")
+               .antMatchers("/member/**").hasRole("USER")
                 .antMatchers("/pm/**").hasRole("USER")
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/login", "/register").anonymous()

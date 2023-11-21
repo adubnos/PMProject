@@ -1,4 +1,4 @@
-package com.example.pmproject.Controller.Admin;
+package com.example.pmproject.Controller;
 
 import com.example.pmproject.DTO.*;
 import com.example.pmproject.Service.*;
@@ -18,7 +18,6 @@ public class ListController {
 
     private final PmUseService pmUseService;
     private final AskService askService;
-
 
     @GetMapping("/list/pmUse")
     public String pmUseList(@PageableDefault(page=1) Pageable pageable, Model model) {

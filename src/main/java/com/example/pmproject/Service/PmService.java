@@ -46,6 +46,7 @@ public class PmService {
         return paging.map(pm -> PmDTO.builder()
                 .pmId(pm.getPmId())
                 .type(pm.getType())
+                .name(pm.getName())
                 .location(pm.getLocation())
                 .img(pm.getImg())
                 .build());
