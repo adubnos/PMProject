@@ -1,6 +1,8 @@
-package com.example.pmproject.Controller.Admin;
+package com.example.pmproject.Controller;
 
+import com.example.pmproject.DTO.ShopCommentDTO;
 import com.example.pmproject.DTO.ShopDTO;
+import com.example.pmproject.Service.ShopCommentService;
 import com.example.pmproject.Service.ShopService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,15 +14,18 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.HandlerMapping;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/shop")
 public class ShopController {
 
     @Value("${cloud.aws.s3.bucket}")
@@ -30,10 +35,11 @@ public class ShopController {
     @Value("${shopImgUploadLocation}")
     private String folder;
     private final ShopService shopService;
+    private final ShopCommentService shopCommentService;
 
-    @GetMapping("/list/shop")
-    public String shopList(@PageableDefault(page=1) Pageable pageable, Model model) {
-        Page<ShopDTO> shopDTOS=shopService.shopDTOS(null, pageable);
+    @GetMapping({"/admin/shop/list","/member/shop/list"})
+    public String shopList(@PageableDefault(page=1) Pageable pageable, @RequestParam(value = "keyword", defaultValue = "") String keyword, Model model) {
+        Page<ShopDTO> shopDTOS=shopService.shopDTOS(keyword, pageable);
 
         int blockLimit=10;
 
@@ -46,16 +52,32 @@ public class ShopController {
         model.addAttribute("shopDTOS", shopDTOS);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
+        model.addAttribute("keyword", keyword);
 
-        return "admin/shop/list";
+        if("/admin/shop/list".equals(RequestContextHolder.currentRequestAttributes().getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE, RequestAttributes.SCOPE_REQUEST))) {
+            return "admin/shop/list";
+        }else {
+            return "shop/list";
+        }
     }
 
-    @GetMapping("/register")
+    @GetMapping({"/admin/shop/detail","/member/shop/detail"})
+    public String shopDetail(Long shopId, Model model) {
+        ShopDTO shopDTO=shopService.listOne(shopId);
+        List<ShopCommentDTO> shopCommentDTOList=shopCommentService.shopCommentDTOS(shopId);
+
+        model.addAttribute("shopDTO", shopDTO);
+        model.addAttribute("shopCommentDTO", shopCommentDTOList);
+
+        return "shop/detail";
+    }
+
+    @GetMapping("/admin/shop/register")
     public String shopRegisterForm(ShopDTO shopDTO) {
         return "admin/shop/register";
     }
 
-    @PostMapping("/register")
+    @PostMapping("/admin/shop/register")
     public String shopRegister(@Valid ShopDTO shopDTO, MultipartFile imgFile, BindingResult bindingResult) throws IOException {
         if(bindingResult.hasErrors()) {
             return "admin/shop/register";
@@ -65,7 +87,7 @@ public class ShopController {
         return "redirect:/admin/shop/list";
     }
 
-    @GetMapping("/modify")
+    @GetMapping("/admin/shop/modify")
     public String shopModifyForm(Long shopId, Model model) {
         ShopDTO shopDTO=shopService.listOne(shopId);
         model.addAttribute("shopDTO", shopDTO);
@@ -73,7 +95,7 @@ public class ShopController {
         return "admin/shop/modify";
     }
 
-    @PostMapping("/modify")
+    @PostMapping("/admin/shop/modify")
     public String shopModify(@Valid ShopDTO shopDTO, MultipartFile imgFile, BindingResult bindingResult) throws IOException {
         if(bindingResult.hasErrors()) {
             return "admin/shop/modify";
@@ -83,7 +105,7 @@ public class ShopController {
         return "redirect:/admin/shop/list";
     }
 
-    @GetMapping("/delete")
+    @GetMapping("/admin/shop/delete")
     public String shopDelete(Long shopId) throws IOException {
         shopService.delete(shopId);
         return "redirect:/admin/shop/list";

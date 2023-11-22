@@ -61,6 +61,7 @@
                                 <th>이름</th>
                                 <th>위치</th>
                                 <th>사진</th>
+                                <th>상태</th>
                                 <th>작업</th>
                             </tr>
                             </thead>
@@ -75,6 +76,10 @@
                                 <td th:text="${pmDTOS.name}"></td>
                                 <td th:text="${pmDTOS.location}"></td>
                                 <td><img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}/${pmDTOS.img}|" width="200" height="200" alt="PM 이미지 없음"></td>
+                                <td>
+                                    <span th:if="${pmDTOS.isUse==1}">사용가능</span>
+                                    <span th:if="${pmDTOS.isUse==0}">사용불가능</span>
+                                </td>
                                 <td>
                                     <span>
                                         <button type="button" class="btn btn-outline-secondary" th:onclick="|location.href='@{/admin/pm/detail(pmId=${pmDTOS.pmId})}'|">자세히</button>

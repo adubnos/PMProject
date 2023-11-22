@@ -66,16 +66,16 @@
                             <tbody>
                             <tr th:each="pmUseDTOS:${pmUseDTOS}">
                                 <input type="hidden" th:text="${pmUseDTOS.pmUseId}">
-                                <td th:text="${pmUseDTOS.startLocation}">경기도 어쩌구</td>
+                                <td th:text="${pmUseDTOS.startLocation}"></td>
                                 <td th:text="${pmUseDTOS.FinishLocation}"></td>
-                                <td th:text="${#temporals.format(pmUseDTOS.regDate, 'yy/MM/dd HH:mm')}">23/11/16 15:18</td>
-                                <td th:text="${#temporals.format(pmUseDTOS.modDate, 'yyyy/MM/dd HH:mm')}"></td>
+                                <td th:text="${#temporals.format(pmUseDTOS.regDate, 'yy/MM/dd HH:mm')}"></td>
+                                <td th:text="${#temporals.format(pmUseDTOS.modDate, 'yy/MM/dd HH:mm')}"></td>
                                 <td>
                                     <span th:if="${pmUseDTOS.isUse}">
                                         <button type="button" class="btn btn-outline-secondary" disabled>사용완료</button>
                                     </span>
                                     <span th:unless="${pmUseDTOS.isUse}">
-                                        <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/pmUse/detail(pmUseId=${pmUseDTOS.pmUseId})'|">사용중</button>
+                                        <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/pmUse/detail(pmUseId=${pmUseDTOS.pmUseId})'|">사용중<br>[강제 종료]</button>
                                     </span>
                                 </td>
                             </tr>

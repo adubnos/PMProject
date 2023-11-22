@@ -15,7 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -32,12 +34,11 @@ public class PmUseService {
 
         Page<PmUse> paging;
 
-        if(memberName != null) {
+        if(!Objects.equals(memberName, "")) {
             paging=pmUseRepository.findByMemberNameList(memberName, PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "pmUseId")));
         }else {
             paging=pmUseRepository.findAll(PageRequest.of(page,pageLimit, Sort.by(Sort.Direction.DESC,"pmUseId")));
         }
-
 
         return paging.map(pmUse -> PmUseDTO.builder()
                 .pmUseId(pmUse.getPmUseId())
@@ -47,6 +48,12 @@ public class PmUseService {
                 .regDate(pmUse.getRegDate())
                 .modDate(pmUse.getModDate())
                 .build());
+    }
+
+    public List<PmUseDTO> pmUseList(Long pmId) {
+        List<PmUse> pmUses=pmUseRepository.findByPm(pmId);
+
+        return Arrays.asList(modelMapper.map(pmUses, PmUseDTO[].class));
     }
 
     public void register(PmUseDTO pmUseDTO) {

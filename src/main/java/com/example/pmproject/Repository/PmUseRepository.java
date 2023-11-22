@@ -15,13 +15,14 @@ import java.util.List;
 public interface PmUseRepository extends JpaRepository<PmUse, Long> {
 
     @Query("select u From PmUse u Where u.pm.pmId = :pmId")
-    List<PmUse> findByPmId(@Param("pmId") Long pmId);
+    List<PmUse> findByPm(@Param("pmId") Long pmId);
 
     @Query("select u from PmUse u where u.member.name = :memberName")
-    List<PmUse> findByMemberName(@Param("memberName") String memberName);
+    List<PmUse> findByMemberName(String memberName);
 
     @Query("select u from PmUse u where u.member.name = :memberName")
-    Page<PmUse> findByMemberNameList(@Param("memberName") String memberName, Pageable pageable);
+    Page<PmUse> findByMemberNameList(String memberName, Pageable pageable);
 
     PmUse findTopByPmOrderByPmUseIdDesc(Pm pm);
+
 }

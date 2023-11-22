@@ -48,7 +48,6 @@ public class Member extends BaseEntity implements Serializable {
     @Enumerated(EnumType.STRING)
     private Role role; //멤버 역할 (관리자 : ROLE_ADMIN / 유저 : ROLE_USER)
 
-
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<PmUse> useList;
 

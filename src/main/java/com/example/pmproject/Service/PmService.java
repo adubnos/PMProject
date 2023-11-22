@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +38,7 @@ public class PmService {
 
         Page<Pm> paging;
 
-        if(keyword != null) {
+        if(!Objects.equals(keyword, "")) {
             paging=pmRepository.findByLocation(keyword, PageRequest.of(page, pageLimit, Sort.Direction.ASC, "pmId"));
         }else {
             paging=pmRepository.findAll(PageRequest.of(page, pageLimit, Sort.Direction.ASC, "pmId"));
@@ -47,6 +48,7 @@ public class PmService {
                 .pmId(pm.getPmId())
                 .type(pm.getType())
                 .name(pm.getName())
+                .isUse(pm.getIsUse())
                 .location(pm.getLocation())
                 .img(pm.getImg())
                 .build());
@@ -87,6 +89,7 @@ public class PmService {
             pmDTO.setImg(newFileName);
         }
         pmDTO.setPmId(pm.getPmId());
+        pmDTO.setIsUse(pm.getIsUse());
         Pm modify=modelMapper.map(pmDTO, Pm.class);
 
         pmRepository.save(modify);

@@ -20,7 +20,7 @@ public class GlobalController {
 
     @GetMapping("/")
     public String main() {
-        return "pmmain1";
+        return "main";
     }
 
     @GetMapping("/login")
@@ -30,7 +30,7 @@ public class GlobalController {
 
     @GetMapping("/register")
     public String registerForm(MemberDTO memberDTO) {
-        return "member/register";
+        return "register";
     }
 
     @PostMapping("/register")

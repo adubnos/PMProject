@@ -70,8 +70,7 @@
                                 <td th:text="${#temporals.format(memberDTOS.regDate, 'yyyy/MM/dd')}"></td>
                                 <td>
                                     <span>
-                                        <button type="button" class="btn btn-outline-secondary" th:onclick="|location.href='@{/admin/member/pmUse(memberName=${memberDTOS.name})}'|">자세히</button>
-                                        <button type="button" class="btn btn-danger" th:onclick="|location.href='@{/admin/member/withdrawal(memberId=${memberDTOS.memberId})'|">탈퇴</button>
+                                        <button type="button" class="btn btn-danger" th:onclick="|location.href='@{/admin/member/withdrawal(memberId=${memberDTOS.memberId})}'|">탈퇴</button>
                                     </span>
                                 </td>
                             </tr>

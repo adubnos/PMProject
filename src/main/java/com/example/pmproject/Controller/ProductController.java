@@ -1,6 +1,9 @@
-package com.example.pmproject.Controller.Admin;
+package com.example.pmproject.Controller;
 
+import com.example.pmproject.DTO.ProductCommentDTO;
 import com.example.pmproject.DTO.ProductDTO;
+import com.example.pmproject.Entity.ProductComment;
+import com.example.pmproject.Service.ProductCommentService;
 import com.example.pmproject.Service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +25,7 @@ import org.springframework.web.servlet.HandlerMapping;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -34,6 +38,7 @@ public class ProductController {
     @Value("${productImgUploadLocation}")
     private String folder;
     private final ProductService productService;
+    private final ProductCommentService productCommentService;
 
     @GetMapping({"/admin/product/list", "/member/product/list"})
     public String productList(@PageableDefault(page = 1) Pageable pageable, @RequestParam(value = "order", defaultValue = "") String order, Model model) {
@@ -57,6 +62,16 @@ public class ProductController {
         } else {
             return "product/list";
         }
+    }
+
+    @GetMapping({"/admin/product/detail", "/member/product/detail"})
+    public String detail(Long productId, Model model) {
+        ProductDTO productDTO=productService.listOne(productId);
+        List<ProductCommentDTO> productCommentList=productCommentService.productCommentDTOS(productId);
+
+        model.addAttribute("productDTO", productDTO);
+        model.addAttribute("productComment", productCommentList);
+        return "product/detail";
     }
 
 

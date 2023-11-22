@@ -10,8 +10,9 @@ import java.util.List;
 public interface AskCommentRepository extends JpaRepository<AskComment, Long> {
 
     @Query("select u From AskComment u Where u.ask.askId = :askId")
-    List<AskComment> findByAskId(@Param("askId") Long askId);
+    List<AskComment> findByAsk(@Param("askId") Long askId);
 
     @Query("select u From AskComment u Where u.member.name = :memberName")
     List<AskComment> findByMemberName(@Param("memberName") String memberName);
+
 }

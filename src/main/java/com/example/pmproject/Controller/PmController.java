@@ -1,7 +1,9 @@
-package com.example.pmproject.Controller.Admin;
+package com.example.pmproject.Controller;
 
 import com.example.pmproject.DTO.PmDTO;
+import com.example.pmproject.DTO.PmUseDTO;
 import com.example.pmproject.Service.PmService;
+import com.example.pmproject.Service.PmUseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -13,14 +15,19 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.HandlerMapping;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/pm")
+@RequestMapping("")
 public class PmController {
 
     @Value("${cloud.aws.s3.bucket}")
@@ -30,10 +37,11 @@ public class PmController {
     @Value("${pmImgUploadLocation}")
     private String folder;
     private final PmService pmService;
+    private final PmUseService pmUseService;
 
-    @GetMapping("/list")
-    public String pmList(@PageableDefault(page=1) Pageable pageable, Model model) {
-        Page<PmDTO> pmDTOS=pmService.pmDTOS(null,pageable);
+    @GetMapping({"/admin/pm/list","/member/pm/list"})
+    public String pmList(@PageableDefault(page=1) Pageable pageable, @RequestParam(value = "keyword", defaultValue = "") String keyword, Model model) {
+        Page<PmDTO> pmDTOS=pmService.pmDTOS(keyword, pageable);
 
         int blockLimit=10;
 
@@ -46,16 +54,31 @@ public class PmController {
         model.addAttribute("pmDTOS", pmDTOS);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
+        model.addAttribute("keyword", keyword);
 
-        return "admin/pm/list";
+        if("/admin/pm/list".equals(RequestContextHolder.currentRequestAttributes().getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE, RequestAttributes.SCOPE_REQUEST))) {
+            return "admin/pm/list";
+        }else {
+            return "pm/list";
+        }
     }
 
-    @GetMapping("/register")
+    @GetMapping("/admin/pm/detail")
+    public String pmDetail(Long pmId, Model model) {
+        PmDTO pmDTO=pmService.listOne(pmId);
+        List<PmUseDTO> pmUseDTOList=pmUseService.pmUseList(pmId);
+
+        model.addAttribute("pmDTO", pmDTO);
+        model.addAttribute("pmUseDTO", pmUseDTOList);
+        return "admin/pm/detail";
+    }
+
+    @GetMapping("/admin/pm/register")
     public String pmRegisterForm(PmDTO pmDTO) {
         return "admin/pm/register";
     }
 
-    @PostMapping("/register")
+    @PostMapping("/admin/pm/register")
     public String pmRegister(@Valid PmDTO pmDTO, MultipartFile imgFile, BindingResult bindingResult) throws IOException {
         if(bindingResult.hasErrors()) {
             return "admin/pm/register";
@@ -65,7 +88,7 @@ public class PmController {
         return "redirect:/admin/pm/list";
     }
 
-    @GetMapping("/modify")
+    @GetMapping("/admin/pm/modify")
     public String pmModifyForm(Long pmId, Model model) {
         PmDTO pmDTO=pmService.listOne(pmId);
         model.addAttribute("pmDTO", pmDTO);
@@ -73,7 +96,7 @@ public class PmController {
         return "admin/pm/modify";
     }
 
-    @PostMapping("/modify")
+    @PostMapping("/admin/pm/modify")
     public String pmModify(@Valid PmDTO pmDTO, MultipartFile imgFile, BindingResult bindingResult) throws IOException {
         if(bindingResult.hasErrors()) {
             return "admin/pm/modify";
@@ -83,7 +106,7 @@ public class PmController {
         return "redirect:/admin/pm/list";
     }
 
-    @GetMapping("/delete")
+    @GetMapping("/admin/pm/delete")
     public String pmDelete(Long pmId) throws IOException {
         pmService.delete(pmId);
         return "redirect:/admin/pm/list";

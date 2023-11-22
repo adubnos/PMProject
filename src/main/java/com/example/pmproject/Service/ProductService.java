@@ -37,10 +37,10 @@ public class ProductService {
 
         Page<Product> paging;
 
-        if(Objects.equals(order, "")) {
-            paging=productRepository.findAll(PageRequest.of(page, pageLimit, Sort.Direction.ASC, "productId"));
-        }else {
+        if(!Objects.equals(order, "")) {
             paging=productRepository.findAll(PageRequest.of(page, pageLimit, Sort.Direction.valueOf(order), "price"));
+        }else {
+            paging=productRepository.findAll(PageRequest.of(page, pageLimit, Sort.Direction.DESC, "productId"));
         }
 
 

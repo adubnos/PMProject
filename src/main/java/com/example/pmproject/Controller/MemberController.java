@@ -35,9 +35,6 @@ import java.util.Objects;
 public class MemberController {
 
     private final MemberService memberService;
-    private final PmUseService pmUseService;
-    private final AskService askService;
-
 
     @GetMapping("/info")
     public String memberInfo(Model model, Authentication authentication) {
@@ -47,43 +44,6 @@ public class MemberController {
         model.addAttribute("member", member);
 
         return "member/info";
-    }
-
-    @GetMapping("/pmUse")
-    public String memberPmUse(@PageableDefault(page=1) Pageable pageable, Model model, Authentication authentication) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        MemberDTO member = memberService.listOne(userDetails.getUsername());
-        String name = member.getName();
-
-        Page<PmUseDTO> pmUseDTOS = pmUseService.pmUseDTOS(name, pageable);
-
-        int blockLimit = 10;
-        int startPage=(((int)(Math.ceil((double)pageable.getPageNumber()/blockLimit)))-1)*blockLimit+1;
-        int endPage=Math.min((startPage+blockLimit-1), pmUseDTOS.getTotalPages());
-
-        model.addAttribute("pmUseDTOS", pmUseDTOS);
-        model.addAttribute("startPage", startPage);
-        model.addAttribute("endPage", endPage);
-
-        return "member/pmUse";
-    }
-
-    @GetMapping("/ask")
-    public String memberAsk(@PageableDefault(page=1) Pageable pageable, Model model, Authentication authentication) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        MemberDTO member=memberService.listOne(userDetails.getUsername());
-        String name=member.getName();
-
-        Page<AskDTO> askDTOS=askService.askDTOS(name, pageable);
-
-        int blockLimit = 10;
-        int startPage=(((int)(Math.ceil((double)pageable.getPageNumber()/blockLimit)))-1)*blockLimit+1;
-        int endPage=Math.min((startPage+blockLimit-1), askDTOS.getTotalPages());
-
-        model.addAttribute("askDTOS", askDTOS);
-        model.addAttribute("startPage", startPage);
-        model.addAttribute("endPage", endPage);
-        return "member/ask";
     }
 
     @GetMapping("/update")

@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +34,7 @@ public class ShopService {
         int pageLimit=5;
 
         Page<Shop> paging;
-        if(keyword != null) {
+        if(!Objects.equals(keyword, "")) {
             paging=shopRepository.findByLocationContaining(keyword, PageRequest.of(page, pageLimit, Sort.Direction.ASC, "shopId"));
         }else {
             paging=shopRepository.findAll(PageRequest.of(page, pageLimit, Sort.Direction.ASC, "shopId"));
