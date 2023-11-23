@@ -33,7 +33,6 @@ public class AskController {
     private final AskService askService;
     private final AskCommentService askCommentService;
     private final MemberService memberService;
-    private final ModelMapper modelMapper=new ModelMapper();
 
     @GetMapping({"/admin/ask/list", "/member/ask/list"})
     public String askList(@PageableDefault(page=1) Pageable pageable, Authentication authentication, Model model) {

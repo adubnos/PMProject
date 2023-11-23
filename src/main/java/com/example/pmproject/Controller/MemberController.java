@@ -1,23 +1,11 @@
 package com.example.pmproject.Controller;
 
-import com.example.pmproject.DTO.AskDTO;
 import com.example.pmproject.DTO.MemberDTO;
 import com.example.pmproject.DTO.MemberUpdateDTO;
-import com.example.pmproject.DTO.PmUseDTO;
-import com.example.pmproject.Entity.PmUse;
-import com.example.pmproject.Service.AskService;
-import com.example.pmproject.Service.GlobalService;
 import com.example.pmproject.Service.MemberService;
-import com.example.pmproject.Service.PmUseService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
-import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor

@@ -44,6 +44,7 @@
                                 <th>제목</th>
                                 <th>작성 일자</th>
                                 <th>답변 일자</th>
+                                <th>상태</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -52,6 +53,14 @@
                                 <td th:text="${askDTOS.title}"></td>
                                 <td th:text="${#temporals.format(askDTOS.regDate, 'yyyy/MM/dd')}"></td>
                                 <td th:text="${#temporals.format(askDTOS.modDate, 'yyyy/MM/dd')}"></td>
+                                <td>
+                                    <span th:if="${askDTOS.isAsk}">
+                                        <button type="button" class="btn btn-outline-secondary" th:onclick="|location.href='@{/member/ask/detail(askId=${askDTOS.askId})'|">답변완료</button>
+                                    </span>
+                                    <span th:unless="${askDTOS.isAsk}">
+                                        <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/member/ask/detail(askId=${askDTOS.askId})'|">답변대기</button>
+                                    </span>
+                                </td>
                             </tr>
                             </tbody>
                         </table>

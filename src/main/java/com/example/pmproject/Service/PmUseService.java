@@ -1,8 +1,11 @@
 package com.example.pmproject.Service;
 
+import com.example.pmproject.DTO.PmDTO;
 import com.example.pmproject.DTO.PmUseDTO;
+import com.example.pmproject.Entity.Member;
 import com.example.pmproject.Entity.Pm;
 import com.example.pmproject.Entity.PmUse;
+import com.example.pmproject.Repository.MemberRepository;
 import com.example.pmproject.Repository.PmRepository;
 import com.example.pmproject.Repository.PmUseRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +27,10 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Transactional
 public class PmUseService {
+
     private final PmUseRepository pmUseRepository;
     private final PmRepository pmRepository;
+    private final MemberRepository memberRepository;
     private final ModelMapper modelMapper=new ModelMapper();
 
     public Page<PmUseDTO> pmUseDTOS(String memberName, Pageable pageable) {
@@ -56,8 +61,14 @@ public class PmUseService {
         return Arrays.asList(modelMapper.map(pmUses, PmUseDTO[].class));
     }
 
-    public void register(PmUseDTO pmUseDTO) {
-        PmUse pmUse=modelMapper.map(pmUseDTO, PmUse.class);
+    public void register(Long pmId, String name) {
+        Pm pm=pmRepository.findById(pmId).orElseThrow();
+        Member member = memberRepository.findByName(name).orElseThrow();
+        PmUse pmUse = PmUse.builder()
+                .startLocation(pm.getLocation())
+                .pm(pm)
+                .member(member)
+                .build();
         pmUseRepository.save(pmUse);
     }
 

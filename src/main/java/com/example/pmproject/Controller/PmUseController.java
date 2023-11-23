@@ -4,13 +4,13 @@ import com.example.pmproject.Constant.Role;
 import com.example.pmproject.DTO.MemberDTO;
 import com.example.pmproject.DTO.PmUseDTO;
 import com.example.pmproject.Service.MemberService;
+import com.example.pmproject.Service.PmService;
 import com.example.pmproject.Service.PmUseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +23,7 @@ import org.springframework.web.servlet.HandlerMapping;
 @RequiredArgsConstructor
 public class PmUseController {
 
+    private final PmService pmService;
     private final PmUseService pmUseService;
     private final MemberService memberService;
 
@@ -55,4 +56,14 @@ public class PmUseController {
         }
 
     }
+
+    @GetMapping({"/admin/pmUse/register", "/member/pmUse/register"})
+    public String pmUseRegisterForm(Long pmId, Authentication authentication, Model model) {
+        UserDetails userDetails=(UserDetails)authentication.getPrincipal();
+        MemberDTO memberDTO=memberService.listOne(userDetails.getUsername());
+        String name = memberDTO.getName();
+        pmUseService.register(pmId, name);
+        return "redirect:/";
+    }
+
 }

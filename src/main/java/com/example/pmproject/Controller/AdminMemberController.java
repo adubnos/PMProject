@@ -1,9 +1,7 @@
 package com.example.pmproject.Controller;
 
 import com.example.pmproject.DTO.MemberDTO;
-import com.example.pmproject.DTO.PmUseDTO;
 import com.example.pmproject.Service.MemberService;
-import com.example.pmproject.Service.PmUseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AdminMemberController {
 
     private final MemberService memberService;
-    private final PmUseService pmUseService;
 
     @GetMapping("/list")
     public String memberList(@PageableDefault(page=1) Pageable pageable, Model model) {

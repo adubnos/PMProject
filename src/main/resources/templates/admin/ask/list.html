@@ -69,30 +69,25 @@
                                 <td th:text="${#temporals.format(askDTOS.regDate, 'yyyy/MM/dd')}"></td>
                                 <td th:text="${#temporals.format(askDTOS.modDate, 'yyyy/MM/dd')}"></td>
                                 <td>
-                                    <span th:if="${askDTOS.isAsk}">
-                                        <button type="button" class="btn btn-outline-secondary" disabled>답변완료</button>
-                                    </span>
-                                    <span th:unless="${askDTOS.isAsk}">
-                                        <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/ask/detail(askId=${askDTOS.askId})'|">답변하기</button>
-                                    </span>
+                                    <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/admin/ask/detail(askId=${askDTOS.askId})'|">상세보기</button>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
                         <div class="container mt-3">
                             <ul class="pagination mt-3">
-                                <li class="page-item"><a class="page-link" th:href="@{/member/ask(page=1)}"><<</a></li>
-                                <li class="page-item"><a class="page-link" th:href="${askDTOS.first} ? '#' : @{/member/ask(page=${askDTOS.number})}"><</a></li>
+                                <li class="page-item"><a class="page-link" th:href="@{/admin/ask/list(page=1)}"><<</a></li>
+                                <li class="page-item"><a class="page-link" th:href="${askDTOS.first} ? '#' : @{/admin/ask/list(page=${askDTOS.number})}"><</a></li>
                                 <span th:each="page:${#numbers.sequence(startPage, endPage)}">
                                     <li class="page-item active" th:if="${page == askDTOS.number+1}">
                                         <a class="page-link" href="#" th:text="${page}"></a>
                                     </li>
                                     <li class="page-item" th:unless="${page == askDTOS.number+1}">
-                                        <a class="page-link" th:href="@{/member/ask(page=${page})}" th:text="${page}"></a>
+                                        <a class="page-link" th:href="@{/admin/ask/list(page=${page})}" th:text="${page}"></a>
                                     </li>
                                 </span>
-                                <li class="page-item"><a class="page-link" th:href="${askDTOS.last} ? '#' : @{/member/ask(page=${askDTOS.number+2})}">></a></li>
-                                <li class="page-item"><a class="page-link" th:href="@{/member/ask(page=${askDTOS.totalPages})}">>></a></li>
+                                <li class="page-item"><a class="page-link" th:href="${askDTOS.last} ? '#' : @{/admin/ask/list(page=${askDTOS.number+2})}">></a></li>
+                                <li class="page-item"><a class="page-link" th:href="@{/admin/ask(page=${askDTOS.totalPages})}">>></a></li>
                             </ul>
                         </div>
                     </div>

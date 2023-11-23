@@ -60,7 +60,7 @@
                                         <button type="button" class="btn btn-outline-secondary" disabled>사용완료</button>
                                     </span>
                                     <span th:unless="${pmUseDTOS.isUse}">
-                                        <button type="button" class="btn btn-secondary" disabled>사용중</button>
+                                        <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{'">사용중</button>
                                     </span>
                                 </td>
                             </tr>

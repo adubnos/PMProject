@@ -24,6 +24,8 @@ public class AskDTO {
 
     private String member_name;
 
+    private boolean isAsk;
+
     private LocalDateTime regDate;
     private LocalDateTime modDate;
 }

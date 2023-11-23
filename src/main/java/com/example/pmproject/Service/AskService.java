@@ -44,6 +44,7 @@ public class AskService {
     }
 
     public void register(AskDTO askDTO) {
+        askDTO.setAsk(false);
         Ask ask=modelMapper.map(askDTO, Ask.class);
         askRepository.save(ask);
     }
@@ -57,6 +58,7 @@ public class AskService {
         Long askId=askDTO.getAskId();
         Ask ask=askRepository.findById(askId).orElseThrow();
 
+        askDTO.setAsk(false);
         Ask modify=modelMapper.map(askDTO, Ask.class);
         modify.setAskId(ask.getAskId());
         askRepository.save(modify);

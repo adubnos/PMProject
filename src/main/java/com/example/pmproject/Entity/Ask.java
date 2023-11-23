@@ -28,6 +28,9 @@ public class Ask extends BaseEntity{
     @Column(nullable = false)
     private String content;
 
+    @Column
+    private Boolean isAsk;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_name", referencedColumnName = "name")
     private Member member;
