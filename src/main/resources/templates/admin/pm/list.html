@@ -103,7 +103,7 @@
                                     </li>
                                 </span>
                                 <li class="page-item"><a class="page-link" th:href="${pmDTOS.last} ? '#' : @{/admin/pm/list(page=${pmDTOS.number+2})}">></a></li>
-                                <li class="page-item"><a class="page-link" th:href="@{/admin/pm/list(page=${pmDTOS.totalPages})}">>></a></li>
+                                <li class="page-item"><a class="page-link" th:href="${pmDTOS.last} ? '#' : @{/admin/pm/list(page=${pmDTOS.totalPages})}">>></a></li>
                             </ul>
                         </div>
                     </div>

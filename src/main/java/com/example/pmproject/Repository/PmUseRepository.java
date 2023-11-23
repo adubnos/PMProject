@@ -23,6 +23,4 @@ public interface PmUseRepository extends JpaRepository<PmUse, Long> {
     @Query("select u from PmUse u where u.member.name = :memberName")
     Page<PmUse> findByMemberNameList(String memberName, Pageable pageable);
 
-    PmUse findTopByPmOrderByPmUseIdDesc(Pm pm);
-
 }

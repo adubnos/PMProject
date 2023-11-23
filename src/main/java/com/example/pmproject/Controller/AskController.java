@@ -51,6 +51,9 @@ public class AskController {
 
         int startPage=(((int)(Math.ceil((double)pageable.getPageNumber()/blockLimit)))-1)*blockLimit+1;
         int endPage=Math.min((startPage+blockLimit-1), askDTOS.getTotalPages());
+        if (endPage==0) {
+            endPage=startPage;
+        }
 
         model.addAttribute("askDTOS", askDTOS);
         model.addAttribute("startPage", startPage);
@@ -59,7 +62,7 @@ public class AskController {
         if("/admin/ask/list".equals(RequestContextHolder.currentRequestAttributes().getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE, RequestAttributes.SCOPE_REQUEST))) {
             return "admin/ask/list";
         }else {
-            return "member/ask/list";
+            return "member/ask";
         }
 
     }

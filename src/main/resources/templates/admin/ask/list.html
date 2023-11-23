@@ -87,7 +87,7 @@
                                     </li>
                                 </span>
                                 <li class="page-item"><a class="page-link" th:href="${askDTOS.last} ? '#' : @{/admin/ask/list(page=${askDTOS.number+2})}">></a></li>
-                                <li class="page-item"><a class="page-link" th:href="@{/admin/ask(page=${askDTOS.totalPages})}">>></a></li>
+                                <li class="page-item"><a class="page-link" th:href="${askDTOS.last} ? '#' : @{/admin/ask(page=${askDTOS.totalPages})}">>></a></li>
                             </ul>
                         </div>
                     </div>

@@ -23,12 +23,12 @@
                             </a>
                         </li>
                         <li class="nav-item" style="text-align: center">
-                            <a class="nav-link" href="/member/pmUse/list">
+                            <a class="nav-link" href="/member/pmUse">
                                 Pm 사용내역
                             </a>
                         </li>
                         <li class="nav-item" style="text-align: center">
-                            <a class="nav-link" href="/member/ask/list">
+                            <a class="nav-link" href="/member/ask">
                                 문의 내역
                             </a>
                         </li>
@@ -50,19 +50,58 @@
                             </thead>
                             <tbody>
                             <tr th:each="pmUseDTOS:${pmUseDTOS}">
-                                <input type="hidden" th:text="${pmUseDTOS.pmUseId}">
-                                <td th:text="${pmUseDTOS.startLocation}">경기도 어쩌구</td>
+                                <input type="hidden" th:value="${pmUseDTOS.pmUseId}">
+                                <input type="hidden" th:value="${pmUseDTOS.pm_id}">
+                                <td th:text="${pmUseDTOS.startLocation}"></td>
                                 <td th:text="${pmUseDTOS.FinishLocation}"></td>
-                                <td th:text="${#temporals.format(pmUseDTOS.regDate, 'yy/MM/dd HH:mm')}">23/11/16 15:18</td>
+                                <td th:text="${#temporals.format(pmUseDTOS.regDate, 'yy/MM/dd HH:mm')}"></td>
                                 <td th:text="${#temporals.format(pmUseDTOS.modDate, 'yy/MM/dd HH:mm')}"></td>
                                 <td>
                                     <span th:if="${pmUseDTOS.isUse}">
                                         <button type="button" class="btn btn-outline-secondary" disabled>사용완료</button>
                                     </span>
                                     <span th:unless="${pmUseDTOS.isUse}">
-                                        <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{'">사용중</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-target="modal" data-bs-target="#pmUseModify">사용 종료 하기</button>
                                     </span>
                                 </td>
+                                <div class="modal" id="pmUseModify">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">PM 사용 종료 하기</h4>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <label for="finishLocation" class="form-label">사용 종료 위치</label>
+                                                <input type="text" id="finishLocation" name="finishLocation">
+                                                <div id="pmUseError" class="text-danger"></div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary" onclick="pmUse('${pmUseDTOS.pmUseId}', '${pmUseDTOS.pm_id}')">종료</button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <script>
+                                    function pmUse(pmUseId, pmId) {
+                                        var finishLocation = document.getElementById('finishLocation').value;
+
+                                        if(!finishLocation) {
+                                            document.getElementById('pmUseError').innerHTML = "종료 위치를 입력해 주세요."
+                                            return;
+                                        }
+
+                                        document.getElementById('pmUseError').innerHTML='';
+
+                                        // encodeURIComponent 함수를 사용하여 값들을 안전하게 인코딩
+                                        var url = '/member/pmUse/modify?pmUseId=' + encodeURIComponent(pmUseId) +
+                                            '&pmId=' + encodeURIComponent(pmId) +
+                                            '&finishLocation=' + encodeURIComponent(finishLocation);
+
+                                        window.location.href = url;
+                                    }
+                                </script>
                             </tr>
                             </tbody>
                         </table>
@@ -79,7 +118,7 @@
                                     </li>
                                 </span>
                                 <li class="page-item"><a class="page-link" th:href="${pmUseDTOS.last} ? '#' : @{/member/pmUse(page=${pmUseDTOS.number+2})}">></a></li>
-                                <li class="page-item"><a class="page-link" th:href="@{/member/pmUse(page=${pmUseDTOS.totalPages})}">>></a></li>
+                                <li class="page-item"><a class="page-link" th:href="${pmUseDTOS.last} ? '#' : @{/member/pmUse(page=${pmUseDTOS.totalPages})}">>></a></li>
                             </ul>
                         </div>
                     </div>

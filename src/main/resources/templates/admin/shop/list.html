@@ -94,7 +94,7 @@
                                     </li>
                                 </span>
                                 <li class="page-item"><a class="page-link" th:href="${shopDTOS.last} ? '#' : @{/admin/shop/list(page=${shopDTOS.number+2})}">></a></li>
-                                <li class="page-item"><a class="page-link" th:href="@{/admin/shop/list(page=${shopDTOS.totalPages})}">>></a></li>
+                                <li class="page-item"><a class="page-link" th:href="${shopDTOS.last} ? '#' : @{/admin/shop/list(page=${shopDTOS.totalPages})}">>></a></li>
                             </ul>
                         </div>
                     </div>

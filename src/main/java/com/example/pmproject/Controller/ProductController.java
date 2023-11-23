@@ -48,6 +48,9 @@ public class ProductController {
 
         int startPage = (((int) (Math.ceil((double) pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1;
         int endPage = Math.min((startPage + blockLimit - 1), productDTOS.getTotalPages());
+        if (endPage==0) {
+            endPage=startPage;
+        }
 
         model.addAttribute("bucket", bucket);
         model.addAttribute("region", region);

@@ -47,6 +47,7 @@ public class PmUseService {
 
         return paging.map(pmUse -> PmUseDTO.builder()
                 .pmUseId(pmUse.getPmUseId())
+                .pm_id(pmUse.getPm().getPmId())
                 .isUse(pmUse.getIsUse())
                 .startLocation(pmUse.getStartLocation())
                 .finishLocation(pmUse.getFinishLocation())
@@ -68,47 +69,26 @@ public class PmUseService {
                 .startLocation(pm.getLocation())
                 .pm(pm)
                 .member(member)
+                .isUse(false)
                 .build();
         pmUseRepository.save(pmUse);
     }
 
-    public void modify(PmUseDTO pmUseDTO) {
-        PmUse pmUse = pmUseRepository.findById(pmUseDTO.getPmUseId()).orElseThrow();
-        Optional<Pm> pmOptional = pmRepository.findById(pmUseDTO.getPm_id());
+    public void modify(Long pmUseId, Long pmId, String finishLocation, String name) {
+        PmUse pmUse = pmUseRepository.findById(pmUseId).orElseThrow();
+        Pm pm = pmRepository.findById(pmId).orElseThrow();
+        Member member = memberRepository.findByName(name).orElseThrow();
 
-        if (pmOptional.isPresent()) {
-            Pm pm = pmOptional.get();
+        PmUse modify = PmUse.builder()
+                .pmUseId(pmUse.getPmUseId())
+                .startLocation(pmUse.getStartLocation())
+                .pm(pm)
+                .finishLocation(finishLocation)
+                .member(member)
+                .isUse(true)
+                .build();
 
-            // PmUse 업데이트
-            pmUse.setFinishLocation(pmUseDTO.getLocation());
-            pmUse.setIsUse(true);
-
-            // Pm 업데이트
-            pm.setIsUse(true);
-            pm.setLocation(pmUseDTO.getLocation());
-
-            pmUseRepository.save(pmUse);
-            pmRepository.save(pm);
-        } else {
-            // Pm을 찾지 못한 경우 처리
-            throw new EntityNotFoundException("ID에 해당하는 Pm을 찾을 수 없습니다: " + pmUseDTO.getPm_id());
-        }
+        pmUseRepository.save(modify);
     }
 
-    public void updatePmLocation() {
-        List<Pm> pmList = pmRepository.findAll();
-
-        for (Pm pm : pmList) {
-            PmUse lastPmUse = pmUseRepository.findTopByPmOrderByPmUseIdDesc(pm);
-
-            if (lastPmUse != null) {
-                String locationToUpdate = lastPmUse.getFinishLocation() != null ?
-                        lastPmUse.getFinishLocation() :
-                        lastPmUse.getStartLocation();
-
-                pm.setLocation(locationToUpdate);
-                pmRepository.save(pm);
-            }
-        }
-    }
 }
