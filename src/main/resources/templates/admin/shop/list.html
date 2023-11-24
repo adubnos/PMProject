@@ -51,9 +51,9 @@
                 </div>
             </nav>
             <main role="main" class="col-sm-9 ml-sm-auto px-4">
-                <button type="button" class="btn btn-primary mt-5" onclick="location.href='/admin/pm/register'">PM 등록</button>
+                <button type="button" class="btn btn-primary mt-5" onclick="location.href='/admin/shop/register'">매장 등록</button>
                 <div class="row mb-5">
-                    <div class="col-sm-9">
+                    <div class="col-sm-12">
                         <table class="table table-hover">
                             <thead>
                             <tr>
@@ -66,7 +66,7 @@
                             </thead>
                             <tbody>
                             <tr th:each="shopDTOS:${shopDTOS}">
-                                <input type="hidden" th:text="${shopDTOS.shopId}">
+                                <input type="hidden" th:value="${shopDTOS.shopId}">
                                 <td th:text="${shopDTOS.title}"></td>
                                 <td th:text="${shopDTOS.location}"></td>
                                 <td th:text="${shopDTOS.tel}"></td>

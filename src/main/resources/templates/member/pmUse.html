@@ -61,7 +61,7 @@
                                         <button type="button" class="btn btn-outline-secondary" disabled>사용완료</button>
                                     </span>
                                     <span th:unless="${pmUseDTOS.isUse}">
-                                        <button type="button" class="btn btn-secondary" data-bs-target="modal" data-bs-target="#pmUseModify">사용 종료 하기</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#pmUseModify">사용 종료 하기</button>
                                     </span>
                                 </td>
                                 <div class="modal" id="pmUseModify">
@@ -78,7 +78,6 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-primary" onclick="pmUse('${pmUseDTOS.pmUseId}', '${pmUseDTOS.pm_id}')">종료</button>
-
                                             </div>
                                         </div>
                                     </div>
@@ -94,12 +93,9 @@
 
                                         document.getElementById('pmUseError').innerHTML='';
 
-                                        // encodeURIComponent 함수를 사용하여 값들을 안전하게 인코딩
-                                        var url = '/member/pmUse/modify?pmUseId=' + encodeURIComponent(pmUseId) +
+                                        window.location.href = '/member/pmUse/modify?pmUseId=' + encodeURIComponent(pmUseId) +
                                             '&pmId=' + encodeURIComponent(pmId) +
                                             '&finishLocation=' + encodeURIComponent(finishLocation);
-
-                                        window.location.href = url;
                                     }
                                 </script>
                             </tr>

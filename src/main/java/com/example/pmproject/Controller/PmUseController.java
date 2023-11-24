@@ -68,10 +68,10 @@ public class PmUseController {
         String name = memberDTO.getName();
         pmUseService.register(pmId, name);
 
-        if("/member/pmUse/register".equals(RequestContextHolder.currentRequestAttributes().getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE, RequestAttributes.SCOPE_REQUEST))) {
-            return "redirect:/member/pmUse";
+        if("/admin/pmUse/register".equals(RequestContextHolder.currentRequestAttributes().getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE, RequestAttributes.SCOPE_REQUEST))) {
+            return "redirect:/admin/pmUse/list";
         }else {
-            return "redirect:/";
+            return "redirect:/member/pmUse";
         }
 
     }
@@ -83,11 +83,21 @@ public class PmUseController {
         String name=memberDTO.getName();
         pmUseService.modify(pmUseId, pmId, finishLocation, name);
 
-        if("/member/pmUse/modify".equals(RequestContextHolder.currentRequestAttributes().getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE, RequestAttributes.SCOPE_REQUEST))) {
-            return "redirect:/member/pmUse";
-        }else {
+        if("/admin/pmUse/modify".equals(RequestContextHolder.currentRequestAttributes().getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE, RequestAttributes.SCOPE_REQUEST))) {
             return "redirect:/admin/pmUse/list";
+        }else {
+            return "redirect:/member/pmUse";
         }
     }
 
+    @GetMapping({"/admin/pmUse/delete","/member/pmUse/delete"})
+    public String pmUseDelete(Long pmUseId) {
+        pmUseService.delete(pmUseId);
+
+        if("/admin/pmUse/delete".equals(RequestContextHolder.currentRequestAttributes().getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE, RequestAttributes.SCOPE_REQUEST))) {
+            return "redirect:/admin/pmUse/list";
+        }else {
+            return "redirect:/member/pmUse";
+        }
+    }
 }

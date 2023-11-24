@@ -51,7 +51,7 @@
                 </div>
             </nav>
             <main role="main" class="col-sm-9 ml-sm-auto px-4">
-                <button type="button" class="btn btn-primary mt-5" onclick="location.href='/admin/pm/register'">PM 등록</button>
+                <button type="button" class="btn btn-primary mt-5" onclick="location.href='/admin/product/register'">제품 등록</button>
                 <div class="dropdown text-end">
                     <button type="button" class="btn btn-outline-dark dropdown-toggle" id="sortDropdown" data-bs-toggle="dropdown">
                         정렬
@@ -68,7 +68,7 @@
                     }
                 </script>
                 <div class="row mb-5">
-                    <div class="col-sm-9">
+                    <div class="col-sm-12">
                         <table class="table table-hover">
                             <thead>
                             <tr>
@@ -80,7 +80,7 @@
                             </thead>
                             <tbody>
                             <tr th:each="productDTOS:${propuctDTOS}">
-                                <input type="hidden" th:text="${productDTOS.productId}">
+                                <input type="hidden" th:value="${productDTOS.productId}">
                                 <td th:text="${productDTOS.name}"></td>
                                 <td><img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}/${productDTOS.img}|" width="200" height="200" alt="제품 이미지 없음"></td>
                                 <td th:text="${productDTOS.price}"></td>

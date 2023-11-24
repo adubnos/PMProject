@@ -71,6 +71,7 @@ public class PmUseService {
                 .member(member)
                 .isUse(false)
                 .build();
+        pmRepository.nUse(pmId);
         pmUseRepository.save(pmUse);
     }
 
@@ -87,8 +88,14 @@ public class PmUseService {
                 .member(member)
                 .isUse(true)
                 .build();
-
+        pmRepository.modifyLocation(finishLocation, pmId);
+        pmRepository.cUse(pmId);
         pmUseRepository.save(modify);
     }
+
+    public void delete(Long pmUseId) {
+        pmUseRepository.deleteById(pmUseId);
+    }
+
 
 }

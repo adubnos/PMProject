@@ -52,14 +52,15 @@
                 </div>
             </nav>
             <main role="main" class="col-sm-9 ml-sm-auto px-4">
-                <div class="row mt-5 mb-5">
+                <div class="row mb-5">
                     <div class="col-sm-12">
-                        <form th:action="@{/admin/pm/register}" method="post" enctype="multipart/form-data" th:object="${pmDTO}">
+                        <form th:action="@{/admin/pm/modify}" method="post" enctype="multipart/form-data" th:object="${pmDTO}">
                             <div class="card mb-5">
-                                <div class="card-header"><h2>PM 등록</h2></div>
+                                <div class="card-header"><h2>PM 수정</h2></div>
                                 <div class="card-body">
+                                    <input type="hidden" th:field="*{pmId}" readonly>
                                     <div class="mb-3 mt-3">
-                                        <label for="name" class="form-label">PM 이름 : </label>
+                                        <label for="name" class="form-label">PM 이름: </label>
                                         <input type="text" class="form-control" id="name"
                                                placeholder="PM 명을 입력하세요" name="name" th:field="*{name}">
                                         <p class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
@@ -83,7 +84,7 @@
                                     </div>
                                 </div>
                                 <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">등록</button>
+                                    <button type="submit" class="btn btn-primary">PM 수정</button>
                                 </div>
                             </div>
                         </form>

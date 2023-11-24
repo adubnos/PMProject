@@ -52,7 +52,7 @@
             </nav>
             <main role="main" class="col-sm-9 ml-sm-auto px-4">
                 <div class="row mt-5 mb-5">
-                    <div class="col-sm-9">
+                    <div class="col-sm-12">
                         <table class="table table-hover">
                             <thead>
                             <tr>
@@ -64,7 +64,7 @@
                             </thead>
                             <tbody>
                             <tr th:each="askDTOS:${askDTOS}">
-                                <input type="hidden" th:text="${askDTOS.askId}">
+                                <input type="hidden" th:value="${askDTOS.askId}">
                                 <td th:text="${askDTOS.title}"></td>
                                 <td th:text="${#temporals.format(askDTOS.regDate, 'yyyy/MM/dd')}"></td>
                                 <td th:text="${#temporals.format(askDTOS.modDate, 'yyyy/MM/dd')}"></td>

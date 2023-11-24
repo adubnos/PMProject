@@ -52,7 +52,7 @@
             </nav>
             <main role="main" class="col-sm-9 ml-sm-auto px-4">
                 <div class="row mt-5 mb-5">
-                    <div class="col-sm-9">
+                    <div class="col-sm-12">
                         <table class="table table-hover">
                             <thead>
                             <tr>
@@ -65,19 +65,56 @@
                             </thead>
                             <tbody>
                             <tr th:each="pmUseDTOS:${pmUseDTOS}">
-                                <input type="hidden" th:text="${pmUseDTOS.pmUseId}">
+                                <input type="hidden" th:value="${pmUseDTOS.pmUseId}">
                                 <td th:text="${pmUseDTOS.startLocation}"></td>
                                 <td th:text="${pmUseDTOS.FinishLocation}"></td>
                                 <td th:text="${#temporals.format(pmUseDTOS.regDate, 'yy/MM/dd HH:mm')}"></td>
                                 <td th:text="${#temporals.format(pmUseDTOS.modDate, 'yy/MM/dd HH:mm')}"></td>
-                                <td>
+                                <td class="d-flex">
                                     <span th:if="${pmUseDTOS.isUse}">
                                         <button type="button" class="btn btn-outline-secondary" disabled>사용완료</button>
                                     </span>
                                     <span th:unless="${pmUseDTOS.isUse}">
-                                        <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/pmUse/detail(pmUseId=${pmUseDTOS.pmUseId})'|">사용중<br>[강제 종료]</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#pmUseModify">사용중<br>[강제 종료]</button>
+                                    </span>
+                                    <span>
+                                        <button type="button" class="btn btn-danger" th:onclick="|location.href='@{/admin/pmUse/delete(pmUseId=${pmUseDTOS.pmUseId})}'|">삭제</button>
                                     </span>
                                 </td>
+                                <div class="modal" id="pmUseModify">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">PM 사용 종료 하기</h4>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <label for="finishLocation" class="form-label">사용 종료 위치</label>
+                                                <input type="text" id="finishLocation" name="finishLocation">
+                                                <div id="pmUseError" class="text-danger"></div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary" onclick="pmUse('${pmUseDTOS.pmUseId}', '${pmUseDTOS.pm_id}')">종료</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <script>
+                                    function pmUse(pmUseId, pmId) {
+                                        var finishLocation = document.getElementById('finishLocation').value;
+
+                                        if(!finishLocation) {
+                                            document.getElementById('pmUseError').innerHTML = "종료 위치를 입력해 주세요."
+                                            return;
+                                        }
+
+                                        document.getElementById('pmUseError').innerHTML='';
+
+                                        window.location.href = '/admin/pmUse/modify?pmUseId=' + encodeURIComponent(pmUseId) +
+                                            '&pmId=' + encodeURIComponent(pmId) +
+                                            '&finishLocation=' + encodeURIComponent(finishLocation);
+                                    }
+                                </script>
                             </tr>
                             </tbody>
                         </table>
