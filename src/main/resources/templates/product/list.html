@@ -50,8 +50,8 @@
                 </a>
             </div>
         </div>
-        <div class="container mt-3">
-            <ul class="pagination mt-3">
+        <div class="container mt-4">
+            <ul class="pagination">
                 <li class="page-item"><a class="page-link" th:href="@{/product/list(page=1)}"><<</a></li>
                 <li class="page-item"><a class="page-link" th:href="${productDTOS.first} ? '#' : @{/product/list(page=${productDTOS.number})}"><</a></li>
                 <span th:each="page:${#numbers.sequence(startPage, endPage)}">
