@@ -36,33 +36,33 @@ public class GlobalController {
     @PostMapping("/register")
     public String register(@Valid MemberDTO memberDTO, BindingResult bindingResult, Model model) {
         if(bindingResult.hasErrors()) {
-            return "member/register";
+            return "register";
         }
         try {
             globalService.register(memberDTO);
             return "redirect:/";
         }catch (IllegalStateException e) {
             model.addAttribute("error", e.getMessage());
-            return "member/register";
+            return "register";
         }
     }
 
     @GetMapping("/findPassword")
     public String findPasswordForm(MemberPasswordDTO memberPasswordDTO) {
-        return "member/findPassword";
+        return "findPassword";
     }
 
     @PostMapping("/findPassword")
     public String findPassword(@Valid MemberPasswordDTO memberPasswordDTO, BindingResult bindingResult, Model model) {
         if(bindingResult.hasErrors()) {
-            return "member/findPassword";
+            return "findPassword";
         }
         try {
             globalService.findPassword(memberPasswordDTO);
             return "redirect:/";
         }catch (IllegalStateException e) {
             model.addAttribute("error", e.getMessage());
-            return "member/findPassword";
+            return "findPassword";
         }
     }
 }

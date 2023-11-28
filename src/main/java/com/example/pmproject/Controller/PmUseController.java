@@ -11,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.servlet.HandlerMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,7 +28,7 @@ public class PmUseController {
     private final PmUseService pmUseService;
     private final MemberService memberService;
 
-    @GetMapping({"/admin/pmUse/list","/member/pmUse"})
+    @GetMapping("/user/pmUse")
     public String pmUseList(@PageableDefault(page=1) Pageable pageable, Authentication authentication, Model model) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         MemberDTO memberDTO=memberService.listOne(userDetails.getUsername());
@@ -53,51 +53,37 @@ public class PmUseController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
 
-        if("/admin/pmUse/list".equals(RequestContextHolder.currentRequestAttributes().getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE, RequestAttributes.SCOPE_REQUEST))) {
-            return "admin/pmUse/list";
-        }else {
-            return "member/pmUse";
-        }
+        return "user/pmUse";
 
     }
 
-    @GetMapping({"/admin/pmUse/register", "/member/pmUse/register"})
-    public String pmUseRegister(Long pmId, Authentication authentication) {
+    @GetMapping("/user/pmUse/register")
+    public String pmUseRegister(Long pmId, Authentication authentication, RedirectAttributes redirectAttributes) {
         UserDetails userDetails=(UserDetails)authentication.getPrincipal();
         MemberDTO memberDTO=memberService.listOne(userDetails.getUsername());
         String name = memberDTO.getName();
         pmUseService.register(pmId, name);
 
-        if("/admin/pmUse/register".equals(RequestContextHolder.currentRequestAttributes().getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE, RequestAttributes.SCOPE_REQUEST))) {
-            return "redirect:/admin/pmUse/list";
-        }else {
-            return "redirect:/member/pmUse";
-        }
+        redirectAttributes.addAttribute("pmId", pmId);
+        return "redirect:/pm/detail";
 
     }
 
-    @GetMapping({"/admin/pmUse/modify", "/member/pmUse/modify"})
+    @GetMapping("/user/pmUse/modify")
     public String pmUseModify(Long pmUseId, Long pmId, String finishLocation, Authentication authentication) {
         UserDetails userDetails=(UserDetails) authentication.getPrincipal();
         MemberDTO memberDTO=memberService.listOne(userDetails.getUsername());
         String name=memberDTO.getName();
         pmUseService.modify(pmUseId, pmId, finishLocation, name);
 
-        if("/admin/pmUse/modify".equals(RequestContextHolder.currentRequestAttributes().getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE, RequestAttributes.SCOPE_REQUEST))) {
-            return "redirect:/admin/pmUse/list";
-        }else {
-            return "redirect:/member/pmUse";
-        }
+        return "redirect:/user/pmUse";
+
     }
 
-    @GetMapping({"/admin/pmUse/delete","/member/pmUse/delete"})
+    @GetMapping("/user/pmUse/delete")
     public String pmUseDelete(Long pmUseId) {
         pmUseService.delete(pmUseId);
 
-        if("/admin/pmUse/delete".equals(RequestContextHolder.currentRequestAttributes().getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE, RequestAttributes.SCOPE_REQUEST))) {
-            return "redirect:/admin/pmUse/list";
-        }else {
-            return "redirect:/member/pmUse";
-        }
+        return "redirect:/user/pmUse";
     }
 }

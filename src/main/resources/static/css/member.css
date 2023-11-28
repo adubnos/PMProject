@@ -1,0 +1,22 @@
+h2{
+    color: orange;
+}
+body {
+    font-family: "Malgun Gothic";
+    font-size:10pt;
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+.btn {
+    border: solid red 0px;
+    width: 150px;
+    text-align: center; /* 부모 요소에 text-align 속성을 적용하여 가로 중앙 정렬 */
+}
+.card-footer {
+    text-align: center;
+}
+
+.form-select {
+    font-family: "Malgun Gothic";
+    font-size:10pt;
+}

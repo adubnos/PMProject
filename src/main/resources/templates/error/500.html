@@ -3,12 +3,20 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout}">
 <head>
-    <title>500 Error</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 <div layout:fragment="content">
-    <h1>500 Page</h1>
-    서버 관리자에게 문의해주세요.
+    <h1>404 Page</h1>
+    <div>
+        Code: <span th:text="${code}"></span> <br>
+        Message: <span th:text="${msg}"></span> <br>
+        TimeStamp: <span th:text="${timeStamp}"></span> <br>
+    </div>
 </div>
 </body>
 </html>

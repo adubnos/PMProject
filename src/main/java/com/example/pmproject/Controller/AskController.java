@@ -78,12 +78,12 @@ public class AskController {
         return "ask/detail";
     }
 
-    @GetMapping("/member/ask/register")
+    @GetMapping("/user/ask/register")
     public String askRegisterForm(AskDTO askDTO) {
         return "ask/register";
     }
 
-    @PostMapping("/member/ask/register")
+    @PostMapping("/user/ask/register")
     public String askRegister(@Valid AskDTO askDTO, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             return "ask/register";
@@ -93,7 +93,7 @@ public class AskController {
         return "redirect:/";
     }
 
-    @GetMapping("/member/ask/modify")
+    @GetMapping("/user/ask/modify")
     public String askModifyForm(Long askId, Model model) {
         AskDTO askDTO=askService.listOne(askId);
         model.addAttribute("askDTO", askDTO);
@@ -101,7 +101,7 @@ public class AskController {
         return "ask/modify";
     }
 
-    @PostMapping("/member/ask/modify")
+    @PostMapping("/user/ask/modify")
     public String askModify(@Valid AskDTO askDTO, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             return "ask/modify";
@@ -111,7 +111,7 @@ public class AskController {
         return "redirect:/";
     }
 
-    @GetMapping("/member/ask/delete")
+    @GetMapping("/user/ask/delete")
     public String askDelete(Long askId) {
         askService.delete(askId);
         return "redirect:/";

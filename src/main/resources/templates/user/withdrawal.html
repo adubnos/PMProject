@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="/css/member.css">
 </head>
 <body>
 <div layout:fragment="content">
@@ -18,17 +19,22 @@
                 <div class="container-fluid">
                     <ul class="navbar-nav">
                         <li class="nav-item mt-3" style="text-align: center">
-                            <a class="nav-link" href="/member/info">
+                            <a class="nav-link" href="/user/info">
                                 회원 정보
                             </a>
                         </li>
                         <li class="nav-item" style="text-align: center">
-                            <a class="nav-link" href="/member/pmUse">
+                            <a class="nav-link" href="/user/pmUse">
                                 Pm 사용내역
                             </a>
                         </li>
                         <li class="nav-item" style="text-align: center">
-                            <a class="nav-link" href="/member/ask">
+                            <a class="nav-link" href="/user/basket">
+                                장바구니
+                            </a>
+                        </li>
+                        <li class="nav-item" style="text-align: center">
+                            <a class="nav-link" href="/user/ask">
                                 문의 내역
                             </a>
                         </li>
@@ -40,7 +46,7 @@
                     <div class="col-sm-9">
                         <div class="card">
                             <div class="card-header"><h2>회원 탈퇴</h2></div>
-                            <form action="/member/withdrawal" method="post">
+                            <form action="/user/withdrawal" method="post">
                                 <div class="card-body">
                                     <div class="mt-3 mb-3">
                                         <div class="mt-3 mb-3">

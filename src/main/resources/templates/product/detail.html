@@ -6,52 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
-        }
+    <link rel="stylesheet" href="/css/detail.css">
+    <script>
+        function restrictToNumbers(input) {
+            // 입력된 값에서 숫자(0-9) 이외의 문자를 모두 제거
+            let cleanedValue = input.value.replace(/[^0-9]/g, '');
 
-        .container {
-            margin-top: 30px;
+            // 앞의 0을 제거하고 다시 input에 설정
+            input.value = cleanedValue.replace(/^0+/, '');
         }
-
-        h2 {
-            color: #101010;
-        }
-
-        .card {
-            border: none;
-        }
-
-        .card-header {
-            background-color: rgba(232, 232, 232, 0.57);
-            color: #fff;
-        }
-
-        .card-img-top {
-            width: 100%;
-            height: auto;
-        }
-
-        .lead {
-            font-size: 24px;
-            color: #000000;
-        }
-
-        .btn-primary {
-            background-color: #007bff;
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-
-        .mt-4 {
-            margin-top: 1.5rem;
-        }
-    </style>
+    </script>
 </head>
 <body>
 <div layout:fragment="content">
@@ -62,39 +26,85 @@
                     <span>&lt;&lt;</span> 뒤로가기
                 </button>
                 <div class="card mt-4">
-                    <a class="nav-link" href="/productdetail1"><img src="product1.jpg" class="card-img-top" alt="상품 1"></a>
+                    <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}/${productDTO.img}|" width="200" height="200" class="card-img-top" alt="제품 이미지 없음">
                 </div>
-            </div>
-            <div class="card-header">
-                <h2>제품 이름</h2>
-            </div>
-            <div class="card-body">
-                <p class="lead">가격: 5,000원</p>
-
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addToCartModal">장바구니에 담기🛒</button>
-                <button class="btn btn-primary">찜하기❤</button>
-
-                <div class="mt-4">
-                    <h4>제품 설명</h4>
-                    <p>헬멧이 튼튼합니다. 아주 좋습니다.</p>
-                    <p>튼튼한 헬멧 지금바로 만나보세요 1111
-                    11111111111111111111111111111111111 1111111111 111 111 11 11 1111111111111 </p>
+                <div class="card-header">
+                    <input type="hidden" th:value="${productDTO.productId}">
+                    <h2 th:text="${productDTO.name}">product1</h2>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal" tabindex="-1" role="dialog" id="addToCartModal">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">장바구니에 담겼습니다</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>제품이 성공적으로 장바구니에 담겼습니다.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">확인</button>
+                <div class="card-body">
+                    <p class="lead" th:text="|가격 : ${productDTO.price}원|">가격: 5,000원</p>
+                    <p class="text-danger" th:if="${error}" th:value="${error}"></p>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#addToCart">장바구니에 담기🛒</button>
+                    <div id="addToCart" class="collapse">
+                        <form th:action="@{/basket/add}" th:method="post">
+                            <div class="form-group" style="margin-bottom: 30px; margin-top: 10px;">
+                                <p>담을 수량 : </p>
+                                <input type="hidden" name="productId" th:value="${productDTO.productId}" readonly>
+                                <input type="text" name="quantity" class="form-control" oninput="restrictToNumbers(this)" style="max-width: 20%">
+                            </div>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addToCartModal">담기</button>
+                            <button type="reset" class="btn btn-secondary">취소</button>
+                            <div class="modal" tabindex="-1" role="dialog" id="addToCartModal">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">장바구니에 담겼습니다</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>제품이 성공적으로 장바구니에 담겼습니다.</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">확인</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="mt-3">
+                        <h4>제품 설명</h4>
+                        <p th:text="${productDTO.content}">testtext</p>
+                    </div>
+                    <div class="card my-4">
+                        <h5 class="card-header">제품평 : </h5>
+                        <div class="card-body">
+                            <form th:action="@{/product/comment/register(productId=${productDTO.productId})}" th:method="post">
+                                <div class="form-group" style="margin-bottom: 10px">
+                                    <input type="hidden" name="productId" th:value="${productDTO.productId}">
+                                    <label class="form-label" for="content">내용 : </label>
+                                    <textarea id="content" name="content" class="form-control mb-3" rows="3"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">저장</button>
+                                <button type="reset" class="btn btn-secondary">다시 작성</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card my-4" th:if="${productComment.size()}!=0">
+                        <div class="card-body">
+                            <div th:each="comment : ${productComment}" class="mb-3 mb-3">
+                                <input type="hidden" th:value="${productDTO.productId}">
+                                <input type="hidden" th:value="${comment.productCommentId}">
+                                <p th:value="${comment.content}">testcontent</p>
+                                <small class="text-muted" th:value="${comment.member_name}">sample</small><br>
+                                <small class="text-muted" th:value="${#temporals.format(comment.regDate, 'yyyy/MM/dd')}">2023-10-25</small><br>
+                                <button type="button" class="btn btn-danger mt-3" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'') or #authentication.name == comment.member_name')}" th:onclick="|location.href='@{/product/comment/delete(productCommentId=${comment.productCommentId}, productId=${productDTO.productId})}'|">삭제</button>
+                                <button type="button" class="btn btn-secondary mt-3" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'') or #authentication.name == comment.member_name')}" data-bs-toggle="collapse" th:data-bs-target="'#modifyComment'+${comment.productCommentId}">수정</button>
+                                <div th:id="'modifyComment'+${comment.productCommentId}" class="collapse">
+                                    <form th:action="@{/product/comment/modify(productCommentId=${comment.productCommentId}, productId=${productDTO.productId})}" th:method="post">
+                                        <div class="form-group" style="margin-bottom: 10px">
+                                            <input type="hidden" th:value="${productDTO.productId}" readonly>
+                                            <input type="hidden" th:value="${comment.productCommentId}" readonly>
+                                            <textarea name="content" class="form-control" rows="3"></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">저장</button>
+                                        <button type="reset" class="btn btn-secondary">취소</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
