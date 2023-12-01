@@ -1,5 +1,7 @@
 package com.example.pmproject.DTO;
 
+import com.example.pmproject.Entity.Member;
+import com.example.pmproject.Entity.Product;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -13,15 +15,11 @@ public class BasketDTO {
 
     private Long basketId;
 
-    private Long product_id;
+    private Product product;
 
-    private String member_name;
-
-    private String product_name;
+    private Member member;
 
     private Integer quantity;
-
-    private Integer price;
 
     private Integer tPrice;
 

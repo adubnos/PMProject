@@ -1,5 +1,7 @@
 package com.example.pmproject.DTO;
 
+import com.example.pmproject.Entity.Member;
+import com.example.pmproject.Entity.Shop;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
@@ -14,9 +16,9 @@ public class ShopCommentDTO {
 
     private Long shopCommentId;
 
-    private Long shopId;
+    private Shop shop;
 
-    private String member_name;
+    private Member member;
 
     @NotNull(message = "내용은 필수 입력 사항입니다.")
     private String content;

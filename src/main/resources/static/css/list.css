@@ -1,0 +1,48 @@
+h2{
+    color: orange;  /*제목*/
+    text-align: center;
+}
+body {
+    font-family: "Malgun Gothic";
+    font-size:10pt;
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+.btn {
+    border: solid red 0px;
+    width: 120px;                               /*버튼 크기, 버튼 내 글자 위치,*/
+    text-align: center; /* 부모 요소에 text-align 속성을 적용하여 가로 중앙 정렬 */
+}
+.card-footer {
+    text-align: center;         /*버튼 중앙 정렬*/
+}
+
+.form-select {
+    font-family: "Malgun Gothic";
+    font-size:10pt;         /*select 메뉴 글자 모양 및 크기 */
+}
+.modal {
+    font-family: "Malgun Gothic";
+    font-size:10pt; /*modal 글자 모양 및 크기 */
+}
+
+.modal-footer {
+    display: flex;      /*modal 하단 버튼 중앙 위치*/
+    justify-content: center;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagination li {
+    list-style: none;
+    margin: 0 5px;
+}
+
+.pagination li a {
+    text-decoration: none;
+    color: #007bff;
+}

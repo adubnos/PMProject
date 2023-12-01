@@ -47,7 +47,7 @@ public class PmUseService {
 
         return paging.map(pmUse -> PmUseDTO.builder()
                 .pmUseId(pmUse.getPmUseId())
-                .pm_id(pmUse.getPm().getPmId())
+                .pm(pmUse.getPm())
                 .isUse(pmUse.getIsUse())
                 .startLocation(pmUse.getStartLocation())
                 .finishLocation(pmUse.getFinishLocation())

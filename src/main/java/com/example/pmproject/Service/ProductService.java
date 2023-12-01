@@ -31,23 +31,17 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final ModelMapper modelMapper=new ModelMapper();
     
-    public Page<ProductDTO> productDTOS(Pageable pageable, String order) {
+    public Page<ProductDTO> productDTOS(Pageable pageable) {
         int page=pageable.getPageNumber()-1;
         int pageLimit=6;
 
         Page<Product> paging;
 
-        if(!Objects.equals(order, "")) {
-            paging=productRepository.findAll(PageRequest.of(page, pageLimit, Sort.Direction.valueOf(order), "price"));
-        }else {
-            paging=productRepository.findAll(PageRequest.of(page, pageLimit, Sort.Direction.DESC, "productId"));
-        }
-
+        paging=productRepository.findAll(PageRequest.of(page, pageLimit, Sort.Direction.DESC, "productId"));
 
         return paging.map(product -> ProductDTO.builder()
                 .productId(product.getProductId())
                 .name(product.getName())
-                .content(product.getContent())
                 .price(product.getPrice())
                 .img(product.getImg())
                 .build());

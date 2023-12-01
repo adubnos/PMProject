@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -27,17 +28,17 @@ public class ShopCommentController {
         String memberName=memberDTO.getName();
         shopCommentService.commentRegister(shopCommentDTO, shopId, memberName);
         redirectAttributes.addAttribute("shopId", shopId);
-        return "redirect:/shop/detail";
+        return "redirect:/user/shop/detail";
     }
 
     @PostMapping("/modify")
     public String modify(Long shopId, Long shopCommentId, ShopCommentDTO shopCommentDTO, Authentication authentication, RedirectAttributes redirectAttributes) {
         shopCommentService.commentModify(shopCommentDTO, shopCommentId, shopId);
         redirectAttributes.addAttribute("shopId",shopId);
-        return "redirect:/shop/detail";
+        return "redirect:/user/shop/detail";
     }
 
-    @PostMapping("/delete")
+    @GetMapping("/delete")
     public String delete(Long shopId, Long shopCommentId, RedirectAttributes redirectAttributes, Authentication authentication) throws Exception {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         MemberDTO memberDTO = memberService.listOne(userDetails.getUsername());
@@ -47,11 +48,11 @@ public class ShopCommentController {
             shopCommentService.commentDelete(email, shopCommentId);
         }catch (Exception e){
             redirectAttributes.addAttribute("error", e.getMessage());
-            return "redirect:/shop/detail";
+            return "redirect:/user/shop/detail";
         }
 
         redirectAttributes.addAttribute("shopId", shopId);
-        return "redirect:/shop/detail";
+        return "redirect:/user/shop/detail";
 
     }
 }

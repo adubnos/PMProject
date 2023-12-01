@@ -22,11 +22,8 @@
     <div class="container">
         <div class="row mt-3">
             <div class="card mb-2">
-                <button class="back-button" onclick="history.back()">
-                    <span>&lt;&lt;</span> 뒤로가기
-                </button>
                 <div class="card mt-4">
-                    <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}/${productDTO.img}|" width="200" height="200" class="card-img-top" alt="제품 이미지 없음">
+                    <img class="card-img-top" th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}/${productDTO.img}|" style="max-width: 200px; min-width: 200px" alt="제품 이미지 없음">
                 </div>
                 <div class="card-header">
                     <input type="hidden" th:value="${productDTO.productId}">
@@ -37,7 +34,7 @@
                     <p class="text-danger" th:if="${error}" th:value="${error}"></p>
                     <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#addToCart">장바구니에 담기🛒</button>
                     <div id="addToCart" class="collapse">
-                        <form th:action="@{/basket/add}" th:method="post">
+                        <form th:action="@{/user/basket/add}" th:method="post">
                             <div class="form-group" style="margin-bottom: 30px; margin-top: 10px;">
                                 <p>담을 수량 : </p>
                                 <input type="hidden" name="productId" th:value="${productDTO.productId}" readonly>
@@ -84,17 +81,17 @@
                     <div class="card my-4" th:if="${productComment.size()}!=0">
                         <div class="card-body">
                             <div th:each="comment : ${productComment}" class="mb-3 mb-3">
-                                <input type="hidden" th:value="${productDTO.productId}">
+                                <input type="hidden" th:value="${comment.product.productId}">
                                 <input type="hidden" th:value="${comment.productCommentId}">
                                 <p th:value="${comment.content}">testcontent</p>
-                                <small class="text-muted" th:value="${comment.member_name}">sample</small><br>
+                                <small class="text-muted" th:value="${comment.member.name}">sample</small><br>
                                 <small class="text-muted" th:value="${#temporals.format(comment.regDate, 'yyyy/MM/dd')}">2023-10-25</small><br>
-                                <button type="button" class="btn btn-danger mt-3" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'') or #authentication.name == comment.member_name')}" th:onclick="|location.href='@{/product/comment/delete(productCommentId=${comment.productCommentId}, productId=${productDTO.productId})}'|">삭제</button>
-                                <button type="button" class="btn btn-secondary mt-3" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'') or #authentication.name == comment.member_name')}" data-bs-toggle="collapse" th:data-bs-target="'#modifyComment'+${comment.productCommentId}">수정</button>
+                                <button type="button" class="btn btn-danger mt-3" th:onclick="|location.href='@{/product/comment/delete(productCommentId=${comment.productCommentId}, productId=${productDTO.productId})}'|">삭제</button>
+                                <button type="button" class="btn btn-secondary mt-3" data-bs-toggle="collapse" th:data-bs-target="'#modifyComment'+${comment.productCommentId}">수정</button>
                                 <div th:id="'modifyComment'+${comment.productCommentId}" class="collapse">
-                                    <form th:action="@{/product/comment/modify(productCommentId=${comment.productCommentId}, productId=${productDTO.productId})}" th:method="post">
+                                    <form th:action="@{/product/comment/modify(productCommentId=${comment.productCommentId}, productId=${comment.product.productId})}" th:method="post">
                                         <div class="form-group" style="margin-bottom: 10px">
-                                            <input type="hidden" th:value="${productDTO.productId}" readonly>
+                                            <input type="hidden" th:value="${comment.product.productId}" readonly>
                                             <input type="hidden" th:value="${comment.productCommentId}" readonly>
                                             <textarea name="content" class="form-control" rows="3"></textarea>
                                         </div>

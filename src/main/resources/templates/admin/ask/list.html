@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="/css/list.css">
 </head>
 <body>
 <div layout:fragment="content">
@@ -38,11 +39,16 @@
                             </a>
                         </li>
                         <li class="nav-item" style="text-align: center">
+                            <a class="nav-link" href="/admin/basket/list">
+                                주문 목록
+                            </a>
+                        </li>
+                        <li class="nav-item" style="text-align: center">
                             <a class="nav-link" href="/admin/shop/list">
                                 매장 목록
                             </a>
                         </li>
-                        <li class="nav-item" style="text-align: center">
+                        <li class="nav-item mb-3" style="text-align: center">
                             <a class="nav-link" href="/admin/ask/list">
                                 문의 목록
                             </a>
@@ -55,21 +61,31 @@
                     <div class="col-sm-12">
                         <table class="table table-hover">
                             <thead>
-                            <tr>
+                            <tr style="text-align: center">
                                 <th>제목</th>
+                                <th>문의 유형</th>
                                 <th>작성 일자</th>
-                                <th>답변 일자</th>
                                 <th>상태</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="askDTOS:${askDTOS}">
+                            <tr th:each="askDTOS:${askDTOS}" style="text-align: center">
                                 <input type="hidden" th:value="${askDTOS.askId}">
                                 <td th:text="${askDTOS.title}"></td>
-                                <td th:text="${#temporals.format(askDTOS.regDate, 'yyyy/MM/dd')}"></td>
-                                <td th:text="${#temporals.format(askDTOS.modDate, 'yyyy/MM/dd')}"></td>
                                 <td>
-                                    <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/admin/ask/detail(askId=${askDTOS.askId})'|">상세보기</button>
+                                    <span th:if="${askDTOS.type==1}">PM</span>
+                                    <span th:if="${askDTOS.type==2}">온라인 매장</span>
+                                    <span th:if="${askDTOS.type==3}">오프라인 매장</span>
+                                    <span th:if="${askDTOS.type==4}">기타</span>
+                                </td>
+                                <td th:text="${#temporals.format(askDTOS.regDate, 'yyyy/MM/dd')}"></td>
+                                <td>
+                                    <span th:if="${askDTOS.isAsk}">
+                                        <button type="button" class="btn btn-outline-secondary" th:onclick="|location.href='@{/user/ask/detail(askId=${askDTOS.askId})}'|">답변완료</button>
+                                    </span>
+                                    <span th:unless="${askDTOS.isAsk}">
+                                        <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/user/ask/detail(askId=${askDTOS.askId})}'|">답변대기</button>
+                                    </span>
                                 </td>
                             </tr>
                             </tbody>

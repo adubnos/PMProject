@@ -1,5 +1,7 @@
 package com.example.pmproject.DTO;
 
+import com.example.pmproject.Entity.Member;
+import com.example.pmproject.Entity.Product;
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
@@ -15,9 +17,9 @@ public class ProductCommentDTO {
 
     private Long productCommentId;
 
-    private Long product_id;
+    private Product product;
 
-    private String member_name;
+    private Member member;
 
     @NotEmpty(message = "내용은 필수 입력 사항입니다.")
     private String content;

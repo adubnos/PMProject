@@ -30,14 +30,14 @@ public class ProductCommentController {
         String memberName=memberDTO.getName();
         productCommentService.commentRegister(productCommentDTO, productId, memberName);
         redirectAttributes.addAttribute("productId", productId);
-        return "redirect:/product/detail";
+        return "redirect:/user/product/detail";
     }
 
     @PostMapping("/modify")
     public String modify(Long productId, Long productCommentId, ProductCommentDTO productCommentDTO, Authentication authentication, RedirectAttributes redirectAttributes) {
         productCommentService.commentModify(productCommentDTO, productCommentId, productId);
         redirectAttributes.addAttribute("productId",productId);
-        return "redirect:/product/detail";
+        return "redirect:/user/product/detail";
     }
 
     @PostMapping("/delete")
@@ -50,11 +50,11 @@ public class ProductCommentController {
             productCommentService.commentDelete(email, productCommentId);
         }catch (Exception e){
             redirectAttributes.addAttribute("error", e.getMessage());
-            return "redirect:/product/detail";
+            return "redirect:/user/product/detail";
         }
 
         redirectAttributes.addAttribute("productId", productId);
-        return "redirect:/product/detail";
+        return "redirect:/user/product/detail";
 
     }
 }

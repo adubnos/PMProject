@@ -40,9 +40,9 @@ public class ProductController {
     private final ProductService productService;
     private final ProductCommentService productCommentService;
 
-    @GetMapping({"/admin/product/list", "/member/product/list"})
-    public String productList(@PageableDefault(page = 1) Pageable pageable, @RequestParam(value = "order", defaultValue = "") String order, Model model) {
-        Page<ProductDTO> productDTOS = productService.productDTOS(pageable, order);
+    @GetMapping({"/admin/product/list", "/user/product/list"})
+    public String productList(@PageableDefault(page = 1) Pageable pageable, Model model) {
+        Page<ProductDTO> productDTOS = productService.productDTOS(pageable);
 
         int blockLimit = 10;
 
@@ -58,7 +58,6 @@ public class ProductController {
         model.addAttribute("productDTOS", productDTOS);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
-        model.addAttribute("order", order);
 
         if ("/admin/product/list".equals(RequestContextHolder.currentRequestAttributes().getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE, RequestAttributes.SCOPE_REQUEST))) {
             return "admin/product/list";
@@ -67,11 +66,14 @@ public class ProductController {
         }
     }
 
-    @GetMapping({"/admin/product/detail", "/member/product/detail"})
+    @GetMapping("/user/product/detail")
     public String detail(Long productId, Model model) {
         ProductDTO productDTO=productService.listOne(productId);
         List<ProductCommentDTO> productCommentList=productCommentService.productCommentDTOS(productId);
 
+        model.addAttribute("bucket", bucket);
+        model.addAttribute("region", region);
+        model.addAttribute("folder", folder);
         model.addAttribute("productDTO", productDTO);
         model.addAttribute("productComment", productCommentList);
         return "product/detail";

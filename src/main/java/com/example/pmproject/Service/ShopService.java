@@ -35,7 +35,7 @@ public class ShopService {
 
         Page<Shop> paging;
         if(!Objects.equals(keyword, "")) {
-            paging=shopRepository.findByLocationContaining(keyword, PageRequest.of(page, pageLimit, Sort.Direction.ASC, "shopId"));
+            paging=shopRepository.findByLocation(keyword, PageRequest.of(page, pageLimit, Sort.Direction.ASC, "shopId"));
         }else {
             paging=shopRepository.findAll(PageRequest.of(page, pageLimit, Sort.Direction.ASC, "shopId"));
         }

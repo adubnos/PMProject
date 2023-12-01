@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +35,10 @@ public class AskCommentService {
     public List<AskCommentDTO> askCommentDTOList(Long askId) {
         List<AskComment> askComments=askCommentRepository.findByAsk(askId);
 
-        return Arrays.asList(modelMapper.map(askComments, AskCommentDTO[].class));
+        return askComments.stream()
+                .map(comment -> modelMapper.map(comment, AskCommentDTO.class))
+                .collect(Collectors.toList());
+
     }
 
     public void commentRegister(AskCommentDTO askCommentDTO, Long ask_id, String member_name) {

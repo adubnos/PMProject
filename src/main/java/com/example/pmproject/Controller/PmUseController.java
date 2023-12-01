@@ -15,6 +15,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.servlet.HandlerMapping;
@@ -24,11 +27,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequiredArgsConstructor
 public class PmUseController {
 
-    private final PmService pmService;
     private final PmUseService pmUseService;
     private final MemberService memberService;
 
-    @GetMapping("/user/pmUse")
+    @GetMapping({"/user/pmUse", "/admin/pmUse/list"})
     public String pmUseList(@PageableDefault(page=1) Pageable pageable, Authentication authentication, Model model) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         MemberDTO memberDTO=memberService.listOne(userDetails.getUsername());
@@ -53,7 +55,11 @@ public class PmUseController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
 
-        return "user/pmUse";
+        if("/admin/pmUse/list".equals(RequestContextHolder.currentRequestAttributes().getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE, RequestAttributes.SCOPE_REQUEST))) {
+            return "admin/pmUse/list";
+        }else {
+            return "user/pmUse";
+        }
 
     }
 
@@ -65,12 +71,15 @@ public class PmUseController {
         pmUseService.register(pmId, name);
 
         redirectAttributes.addAttribute("pmId", pmId);
-        return "redirect:/pm/detail";
+        return "redirect:/user/pmUse";
 
     }
 
-    @GetMapping("/user/pmUse/modify")
-    public String pmUseModify(Long pmUseId, Long pmId, String finishLocation, Authentication authentication) {
+    @PostMapping("/user/pmUse/modify")
+    public String pmUseModify(@RequestParam Long pmUseId,@RequestParam Long pmId,@RequestParam String finishLocation, Authentication authentication) {
+        System.out.println(pmUseId);
+        System.out.println(pmId);
+        System.out.println(finishLocation);
         UserDetails userDetails=(UserDetails) authentication.getPrincipal();
         MemberDTO memberDTO=memberService.listOne(userDetails.getUsername());
         String name=memberDTO.getName();

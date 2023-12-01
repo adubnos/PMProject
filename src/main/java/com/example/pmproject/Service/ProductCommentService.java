@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -35,7 +36,9 @@ public class ProductCommentService {
     public List<ProductCommentDTO> productCommentDTOS(Long product_id) {
         List<ProductComment> productComments=productCommentRepository.findByProductId(product_id);
 
-        return Arrays.asList(modelMapper.map(productComments, ProductCommentDTO[].class));
+        return productComments.stream()
+                .map(comment -> modelMapper.map(comment, ProductCommentDTO.class))
+                .collect(Collectors.toList());
     }
 
     public void commentRegister(ProductCommentDTO productCommentDTO, Long product_id, String member_name) {
@@ -67,6 +70,7 @@ public class ProductCommentService {
         ProductComment modify = modelMapper.map(productCommentDTO, ProductComment.class);
         modify.setProductCommentId(productComment.getProductCommentId());
         modify.setProduct(product);
+        modify.setMember(productComment.getMember());
         productCommentRepository.save(modify);
     }
 
@@ -92,11 +96,11 @@ public class ProductCommentService {
                 }
             } else {
                 // 사용자를 찾을 수 없음을 처리 (예외 던지기, 로깅 등)
-                throw new UsernameNotFoundException("사용자를 찾을 수 없습니다");
+                throw new Exception("사용자를 찾을 수 없습니다");
             }
         } else {
             // 댓글을 찾을 수 없음을 처리 (예외 던지기, 로깅 등)
-            throw new NotFoundException("댓글을 찾을 수 없습니다");
+            throw new Exception("댓글을 찾을 수 없습니다");
         }
     }
 }

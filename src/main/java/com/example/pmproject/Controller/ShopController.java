@@ -37,7 +37,7 @@ public class ShopController {
     private final ShopService shopService;
     private final ShopCommentService shopCommentService;
 
-    @GetMapping({"/admin/shop/list","/member/shop/list"})
+    @GetMapping({"/admin/shop/list","/user/shop/list"})
     public String shopList(@PageableDefault(page=1) Pageable pageable, @RequestParam(value = "keyword", defaultValue = "") String keyword, Model model) {
         Page<ShopDTO> shopDTOS=shopService.shopDTOS(keyword, pageable);
 
@@ -64,13 +64,16 @@ public class ShopController {
         }
     }
 
-    @GetMapping({"/admin/shop/detail","/member/shop/detail"})
+    @GetMapping("/user/shop/detail")
     public String shopDetail(Long shopId, Model model) {
         ShopDTO shopDTO=shopService.listOne(shopId);
         List<ShopCommentDTO> shopCommentDTOList=shopCommentService.shopCommentDTOS(shopId);
 
+        model.addAttribute("bucket", bucket);
+        model.addAttribute("region", region);
+        model.addAttribute("folder", folder);
         model.addAttribute("shopDTO", shopDTO);
-        model.addAttribute("shopCommentDTO", shopCommentDTOList);
+        model.addAttribute("shopComment", shopCommentDTOList);
 
         return "shop/detail";
     }

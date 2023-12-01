@@ -40,11 +40,10 @@ public class BasketService {
 
         return paging.map(basket -> BasketDTO.builder()
                 .basketId(basket.getBasketId())
-                .product_id(basket.getProduct().getProductId())
+                .product(basket.getProduct())
                 .quantity(basket.getQuantity())
-                .price(basket.getPrice())
                 .img(basket.getProduct().getImg())
-                .member_name(basket.getMember().getName())
+                .member(basket.getMember())
                 .tPrice(0)
                 .build());
     }

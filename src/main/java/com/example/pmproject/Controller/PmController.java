@@ -39,7 +39,7 @@ public class PmController {
     private final PmService pmService;
     private final PmUseService pmUseService;
 
-    @GetMapping({"/admin/pm/list","/member/pm/list"})
+    @GetMapping({"/admin/pm/list","/user/pm/list"})
     public String pmList(@PageableDefault(page=1) Pageable pageable, @RequestParam(value = "keyword", defaultValue = "") String keyword, Model model) {
         Page<PmDTO> pmDTOS=pmService.pmDTOS(keyword, pageable);
 

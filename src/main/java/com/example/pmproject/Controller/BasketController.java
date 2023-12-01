@@ -48,7 +48,7 @@ public class BasketController {
 
         for (BasketDTO basketDTO : basketDTOS) {
             int quantity = basketDTO.getQuantity();
-            int price = basketDTO.getPrice();
+            int price = basketDTO.getProduct().getPrice();
             Integer tPrice = quantity * price;
             basketDTO.setTPrice(tPrice);
         }
@@ -70,9 +70,9 @@ public class BasketController {
         model.addAttribute("endPage", endPage);
 
         if ("/admin/basket/list".equals(RequestContextHolder.currentRequestAttributes().getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE, RequestAttributes.SCOPE_REQUEST))) {
-            return "admin/basket";
+            return "admin/basket/list";
         } else {
-            return "member/basket";
+            return "user/basket";
         }
     }
 
@@ -91,11 +91,7 @@ public class BasketController {
 
         redirectAttributes.addAttribute("productId", productId);
 
-        if(role == Role.ROLE_ADMIN) {
-            return "redirect:/admin/product/detail";
-        }else {
-            return "redirect:/member/product/detail";
-        }
+        return "redirect:/user/product/detail";
     }
 
     @PostMapping("/user/basket/modify")

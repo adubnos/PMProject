@@ -28,7 +28,7 @@ public class AskCommentController {
         String memberName=memberDTO.getName();
         askCommentService.commentRegister(askCommentDTO, askId, memberName);
         redirectAttributes.addAttribute("askId", askId);
-        return "redirect:/ask/detail";
+        return "redirect:/user/ask/detail";
     }
 
     @PostMapping("/modify")
@@ -36,7 +36,7 @@ public class AskCommentController {
         askCommentService.commentModify(askCommentDTO, askCommentId, askId);
 
         redirectAttributes.addAttribute("askId",askId);
-        return "redirect:/ask/detail";
+        return "redirect:/user/ask/detail";
     }
 
     @GetMapping("/delete")
@@ -44,7 +44,7 @@ public class AskCommentController {
         askCommentService.commentDelete(askId, askCommentId);
 
         redirectAttributes.addAttribute("askId", askId);
-        return "redirect:/ask/detail";
+        return "redirect:/user/ask/detail";
 
     }
 

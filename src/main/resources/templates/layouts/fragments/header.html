@@ -28,20 +28,22 @@
                     <li sec:authorize="hasRole('ADMIN')" class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">관리자</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/admin/member/list">멤버 관리</a></li>
-                            <li><a class="dropdown-item" href="/admin/pm/list">PM 관리</a></li>
-                            <li><a class="dropdown-item" href="/admin/product/list">헬멧 관리</a></li>
-                            <li><a class="dropdown-item" href="/admin/shop/list">매장 관리</a></li>
+                            <li><a class="dropdown-item" href="/admin/member/list">회원 목록</a></li>
+                            <li><a class="dropdown-item" href="/admin/pm/list">PM 목록</a></li>
+                            <li><a class="dropdown-item" href="/admin/pmUse/list">PM 사용 목록</a></li>
+                            <li><a class="dropdown-item" href="/admin/product/list">제품 목록</a></li>
+                            <li><a class="dropdown-item" href="/admin/shop/list">매장 목록</a></li>
+                            <li><a class="dropdown-item" href="/admin/ask/list">문의 목록</a></li>
                         </ul>
                     </li>
                     <li sec:authorize="isAuthenticated()" class="nav-item">
-                        <a class="nav-link" href="/user/rent">PM 대여</a>
+                        <a class="nav-link" href="/user/pm/rent">PM 대여</a>
                     </li>
-                    <li sec:authorize="hasRole('USER')" class="nav-item dropdown">
+                    <li sec:authorize="isAuthenticated()" class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">멤버</a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#pmModal">PM 목록</a></li>
-                            <li><a class="dropdown-item" href="/member/product/list">헬멧 목록</a></li>
+                            <li><a class="dropdown-item" href="/user/product/list">헬멧 목록</a></li>
                             <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#shopModal">매장 목록</a></li>
                         </ul>
                     </li>
@@ -97,7 +99,7 @@
 
                     document.getElementById('pmError').innerHTML = '';
 
-                    var url = '/member/pm/list?keyword=' + encodeURIComponent(keyword);
+                    var url = '/user/pm/list?keyword=' + encodeURIComponent(keyword);
 
                     window.location.href = url;
                 }
@@ -112,7 +114,7 @@
 
                     document.getElementById('shopError').innerHTML = '';
 
-                    var url = '/member/shop/list?keyword=' + encodeURIComponent(keyword);
+                    var url = '/user/shop/list?keyword=' + encodeURIComponent(keyword);
 
                     window.location.href = url;
                 }

@@ -1,5 +1,7 @@
 package com.example.pmproject.DTO;
 
+import com.example.pmproject.Entity.Member;
+import com.example.pmproject.Entity.Pm;
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
@@ -15,9 +17,9 @@ public class PmUseDTO {
 
     private Long pmUseId;
 
-    private Long pm_id;
+    private Pm pm;
 
-    private String member_name;
+    private Member member;
 
     @NotEmpty(message = "주소는 필수 입력 사항입니다.")
     private String location;

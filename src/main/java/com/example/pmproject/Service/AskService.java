@@ -2,7 +2,9 @@ package com.example.pmproject.Service;
 
 import com.example.pmproject.DTO.AskDTO;
 import com.example.pmproject.Entity.Ask;
+import com.example.pmproject.Entity.Member;
 import com.example.pmproject.Repository.AskRepository;
+import com.example.pmproject.Repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -22,6 +24,7 @@ import java.util.Optional;
 public class AskService {
 
     private final AskRepository askRepository;
+    private final MemberRepository memberRepository;
     private final ModelMapper modelMapper=new ModelMapper();
 
     public Page<AskDTO> askDTOS(@RequestParam(value = "memberName", defaultValue = "") String memberName, Pageable pageable) {
@@ -38,14 +41,17 @@ public class AskService {
         return paging.map(ask -> AskDTO.builder()
                 .askId(ask.getAskId())
                 .title(ask.getTitle())
+                .type(ask.getType())
+                .isAsk(ask.getIsAsk())
                 .regDate(ask.getRegDate())
                 .modDate(ask.getModDate())
                 .build());
     }
 
-    public void register(AskDTO askDTO) {
-        askDTO.setAsk(false);
+    public void register(AskDTO askDTO, String member_name) {
         Ask ask=modelMapper.map(askDTO, Ask.class);
+        ask.setIsAsk(false);
+        ask.setMember(memberRepository.findByName(member_name).orElseThrow());
         askRepository.save(ask);
     }
 
@@ -58,9 +64,10 @@ public class AskService {
         Long askId=askDTO.getAskId();
         Ask ask=askRepository.findById(askId).orElseThrow();
 
-        askDTO.setAsk(false);
         Ask modify=modelMapper.map(askDTO, Ask.class);
+        modify.setIsAsk(ask.getIsAsk());
         modify.setAskId(ask.getAskId());
+        modify.setMember(ask.getMember());
         askRepository.save(modify);
     }
 

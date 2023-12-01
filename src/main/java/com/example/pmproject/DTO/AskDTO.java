@@ -1,5 +1,6 @@
 package com.example.pmproject.DTO;
 
+import com.example.pmproject.Entity.Member;
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
@@ -22,7 +23,7 @@ public class AskDTO {
     @NotEmpty(message = "문의 내용은 필수 입력 사항입니다.")
     private String content;
 
-    private String member_name;
+    private Member member;
 
     private boolean isAsk;
 

@@ -33,15 +33,15 @@
         </div>
         <script type="text/javascript">
             function sortProducts(order) {
-                window.location.href = '/member/product/list?page=' + [[${productDTOS.number + 1}]] + '&order=' + order;
+                window.location.href = '/user/product/list?page=' + [[${productDTOS.number + 1}]] + '&order=' + order;
             }
         </script>
         <hr>
         <div class="row" id="productCardContainer">
-            <div class="col-md-4" th:each="productDTOS:${productDTOS}">
-                <a class="card product-card" th:href="@{/member/product/detail(productId=${productDTOS.productId})}">
-                    <input type="hidden" th:text="${productDTOS.productId}">
-                    <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}/${productDTOS.img}|" width="200" height="200" class="card-img-top" alt="제품 이미지 없음">
+            <div class="col-sm-4" th:each="productDTOS:${productDTOS}">
+                <a class="card product-card" th:href="@{/user/product/detail(productId=${productDTOS.productId})}">
+                    <input type="hidden" th:value="${productDTOS.productId}">
+                    <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}/${productDTOS.img}|" class="card-img-top" alt="제품 이미지 없음">
                     <div class="card-body">
                         <h5 class="card-title" th:text="${productDTOS.name}">test</h5>
                         <p class="card-text" th:text="${productDTOS.price}">test</p>

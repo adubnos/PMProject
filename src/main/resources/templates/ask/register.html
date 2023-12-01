@@ -33,7 +33,7 @@
                                 장바구니
                             </a>
                         </li>
-                        <li class="nav-item" style="text-align: center">
+                        <li class="nav-item mb-3" style="text-align: center">
                             <a class="nav-link" href="/user/ask">
                                 문의 내역
                             </a>
@@ -44,7 +44,7 @@
             <main role="main" class="col-sm-9 ml-sm-auto px-4">
                 <div class="row mt-5 mb-5">
                     <div class="col-sm-9">
-                        <form th:action="@{/user/ask/register}" method="post" enctype="multipart/form-data" th:object="${askDTO}">
+                        <form th:action="@{/user/ask/register}" method="post" th:object="${askDTO}">
                             <div class="card mb-5">
                                 <div class="card-header"><h2>문의 등록</h2></div>
                                 <div class="card-body">

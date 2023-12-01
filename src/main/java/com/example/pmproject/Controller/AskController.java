@@ -34,18 +34,13 @@ public class AskController {
     private final AskCommentService askCommentService;
     private final MemberService memberService;
 
-    @GetMapping({"/admin/ask/list", "/member/ask/list"})
+    @GetMapping("/user/ask")
     public String askList(@PageableDefault(page=1) Pageable pageable, Authentication authentication, Model model) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         MemberDTO memberDTO=memberService.listOne(userDetails.getUsername());
         String memberName = memberDTO.getName();
-        Page<AskDTO> askDTOS;
 
-        if(memberDTO.getRole() == Role.ROLE_ADMIN) {
-            askDTOS=askService.askDTOS("", pageable);
-        }else {
-            askDTOS=askService.askDTOS(memberName, pageable);
-        }
+        Page<AskDTO> askDTOS=askService.askDTOS(memberName, pageable);
 
         int blockLimit=10;
 
@@ -59,15 +54,32 @@ public class AskController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
 
-        if("/admin/ask/list".equals(RequestContextHolder.currentRequestAttributes().getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE, RequestAttributes.SCOPE_REQUEST))) {
-            return "admin/ask/list";
-        }else {
-            return "member/ask";
-        }
+        return "user/ask";
 
     }
 
-    @GetMapping({"/admin/ask/detail", "/member/ask/detail"})
+    @GetMapping( "/admin/ask/list")
+    public String adminAskList(@PageableDefault(page=1) Pageable pageable, Authentication authentication, Model model) {
+
+        Page<AskDTO> askDTOS = askService.askDTOS("", pageable);
+
+        int blockLimit=10;
+
+        int startPage=(((int)(Math.ceil((double)pageable.getPageNumber()/blockLimit)))-1)*blockLimit+1;
+        int endPage=Math.min((startPage+blockLimit-1), askDTOS.getTotalPages());
+        if (endPage==0) {
+            endPage=startPage;
+        }
+
+        model.addAttribute("askDTOS", askDTOS);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+
+        return "admin/ask/list";
+
+    }
+
+    @GetMapping("/user/ask/detail")
     public String askDetail(Long askId, Model model) {
         AskDTO askDTO=askService.listOne(askId);
         List<AskCommentDTO> askCommentDTOList=askCommentService.askCommentDTOList(askId);
@@ -84,13 +96,15 @@ public class AskController {
     }
 
     @PostMapping("/user/ask/register")
-    public String askRegister(@Valid AskDTO askDTO, BindingResult bindingResult) {
+    public String askRegister(@Valid AskDTO askDTO, BindingResult bindingResult, Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String member_name = memberService.listOne(userDetails.getUsername()).getName();
         if(bindingResult.hasErrors()) {
             return "ask/register";
         }
-        askService.register(askDTO);
+        askService.register(askDTO, member_name);
 
-        return "redirect:/";
+        return "redirect:/user/ask";
     }
 
     @GetMapping("/user/ask/modify")
@@ -108,13 +122,13 @@ public class AskController {
         }
         askService.modify(askDTO);
 
-        return "redirect:/";
+        return "redirect:/user/ask";
     }
 
     @GetMapping("/user/ask/delete")
     public String askDelete(Long askId) {
         askService.delete(askId);
-        return "redirect:/";
+        return "redirect:/user/ask";
     }
 
 }

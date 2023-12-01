@@ -46,15 +46,17 @@
                                             <span th:if="${pmDTOS.type==3}">전동이륜평행차</span>
                                         </td>
                                         <td>
-                                            <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}/${pmDTOS.img}|" width="200" height="200" alt="이미지 없음">
+                                            <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}/${pmDTOS.img}|" style="max-width: 100px; min-width: 100px" alt="이미지 없음">
                                         </td>
                                         <td th:text="${pmDTOS.name}"></td>
                                         <td th:text="${pmDTOS.location}"></td>
                                         <td class="text-center">
-                                            <button type="button" class="btn btn-warning" onclick="location.href='https://map.kakao.com/link/search/'+'${pmDTOS.location}'">길찾기</button>
+                                            <button type="button" class="btn btn-warning" th:data-location="${pmDTOS.location}" onclick="location.href='https://map.kakao.com/link/search/' + this.getAttribute('data-location');">
+                                                길찾기
+                                            </button>
                                         </td>
                                         <td class="text-center">
-                                            <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/member/pmUse/register(pmId=${pmDTOS.pmId})}'|">대여</button>
+                                            <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/user/pmUse/register(pmId=${pmDTOS.pmId})}'|">대여</button>
                                         </td>
                                     </tr>
                                     </tbody>
