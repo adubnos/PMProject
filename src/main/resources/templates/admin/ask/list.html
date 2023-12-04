@@ -82,9 +82,11 @@
                                 <td>
                                     <span th:if="${askDTOS.isAsk}">
                                         <button type="button" class="btn btn-outline-secondary" th:onclick="|location.href='@{/user/ask/detail(askId=${askDTOS.askId})}'|">답변완료</button>
+                                        <button type="button" class="btn btn-danger" th:onclick="|location.href='@{/user/ask/delete(askId=${askDTOS.askId})}'|">질문삭제</button>
                                     </span>
                                     <span th:unless="${askDTOS.isAsk}">
                                         <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/user/ask/detail(askId=${askDTOS.askId})}'|">답변대기</button>
+                                        <button type="button" class="btn btn-danger" th:onclick="|location.href='@{/user/ask/delete(askId=${askDTOS.askId})}'|">질문삭제</button>
                                     </span>
                                 </td>
                             </tr>

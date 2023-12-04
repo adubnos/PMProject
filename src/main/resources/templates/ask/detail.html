@@ -98,9 +98,9 @@
                                             <div class="form-group" style="margin-top: 10px" sec:authorize="hasAnyRole('ADMIN')">
                                                 <input type="hidden" name="askId" th:value="${askComment.ask.askId}" readonly>
                                                 <textarea name="content" class="form-control mb-3" rows="3"></textarea>
+                                                <button type="submit" class="btn btn-primary">저장</button>
+                                                <button type="reset" class="btn btn-secondary">다시 작성</button>
                                             </div>
-                                            <button type="submit" class="btn btn-primary">저장</button>
-                                            <button type="reset" class="btn btn-secondary">다시 작성</button>
                                         </form>
                                     </div>
                                 </div>

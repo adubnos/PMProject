@@ -86,8 +86,8 @@
                                 <p th:value="${comment.content}">testcontent</p>
                                 <small class="text-muted" th:value="${comment.member.name}">sample</small><br>
                                 <small class="text-muted" th:value="${#temporals.format(comment.regDate, 'yyyy/MM/dd')}">2023-10-25</small><br>
-                                <button type="button" class="btn btn-danger mt-3" th:onclick="|location.href='@{/product/comment/delete(productCommentId=${comment.productCommentId}, productId=${productDTO.productId})}'|">삭제</button>
-                                <button type="button" class="btn btn-secondary mt-3" data-bs-toggle="collapse" th:data-bs-target="'#modifyComment'+${comment.productCommentId}">수정</button>
+                                <button type="button" class="btn btn-danger mt-3" th:if="${name eq comment.member.name or role.toString() eq 'ROLE_ADMIN'}" th:onclick="|location.href='@{/product/comment/delete(productCommentId=${comment.productCommentId}, productId=${productDTO.productId})}'|">삭제</button>
+                                <button type="button" class="btn btn-secondary mt-3" th:if="${name eq comment.member.name}" data-bs-toggle="collapse" th:data-bs-target="'#modifyComment'+${comment.productCommentId}">수정</button>
                                 <div th:id="'modifyComment'+${comment.productCommentId}" class="collapse">
                                     <form th:action="@{/product/comment/modify(productCommentId=${comment.productCommentId}, productId=${comment.product.productId})}" th:method="post">
                                         <div class="form-group" style="margin-bottom: 10px">

@@ -1,8 +1,10 @@
 package com.example.pmproject.Controller;
 
+import com.example.pmproject.Constant.Role;
 import com.example.pmproject.DTO.ProductCommentDTO;
 import com.example.pmproject.DTO.ProductDTO;
 import com.example.pmproject.Entity.ProductComment;
+import com.example.pmproject.Service.MemberService;
 import com.example.pmproject.Service.ProductCommentService;
 import com.example.pmproject.Service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +12,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -39,6 +43,7 @@ public class ProductController {
     private String folder;
     private final ProductService productService;
     private final ProductCommentService productCommentService;
+    private final MemberService memberService;
 
     @GetMapping({"/admin/product/list", "/user/product/list"})
     public String productList(@PageableDefault(page = 1) Pageable pageable, Model model) {
@@ -67,7 +72,10 @@ public class ProductController {
     }
 
     @GetMapping("/user/product/detail")
-    public String detail(Long productId, Model model) {
+    public String detail(Long productId, Model model, Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String name = memberService.listOne(userDetails.getUsername()).getName();
+        Role role = memberService.listOne(userDetails.getUsername()).getRole();
         ProductDTO productDTO=productService.listOne(productId);
         List<ProductCommentDTO> productCommentList=productCommentService.productCommentDTOS(productId);
 
@@ -75,6 +83,8 @@ public class ProductController {
         model.addAttribute("region", region);
         model.addAttribute("folder", folder);
         model.addAttribute("productDTO", productDTO);
+        model.addAttribute("name", name);
+        model.addAttribute("role", role);
         model.addAttribute("productComment", productCommentList);
         return "product/detail";
     }

@@ -1,7 +1,10 @@
 package com.example.pmproject.Controller;
 
+import com.example.pmproject.Constant.Role;
+import com.example.pmproject.DTO.MemberDTO;
 import com.example.pmproject.DTO.ShopCommentDTO;
 import com.example.pmproject.DTO.ShopDTO;
+import com.example.pmproject.Service.MemberService;
 import com.example.pmproject.Service.ShopCommentService;
 import com.example.pmproject.Service.ShopService;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +12,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,6 +41,7 @@ public class ShopController {
     private String folder;
     private final ShopService shopService;
     private final ShopCommentService shopCommentService;
+    private final MemberService memberService;
 
     @GetMapping({"/admin/shop/list","/user/shop/list"})
     public String shopList(@PageableDefault(page=1) Pageable pageable, @RequestParam(value = "keyword", defaultValue = "") String keyword, Model model) {
@@ -65,7 +71,10 @@ public class ShopController {
     }
 
     @GetMapping("/user/shop/detail")
-    public String shopDetail(Long shopId, Model model) {
+    public String shopDetail(Long shopId, Model model, Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String name = memberService.listOne(userDetails.getUsername()).getName();
+        Role role = memberService.listOne(userDetails.getUsername()).getRole();
         ShopDTO shopDTO=shopService.listOne(shopId);
         List<ShopCommentDTO> shopCommentDTOList=shopCommentService.shopCommentDTOS(shopId);
 
@@ -73,6 +82,8 @@ public class ShopController {
         model.addAttribute("region", region);
         model.addAttribute("folder", folder);
         model.addAttribute("shopDTO", shopDTO);
+        model.addAttribute("name", name);
+        model.addAttribute("role", role);
         model.addAttribute("shopComment", shopCommentDTOList);
 
         return "shop/detail";
