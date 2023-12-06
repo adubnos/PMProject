@@ -11,81 +11,83 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
+<div layout:fragment="content">
 <img src="/images/result.jpg" width="150" height="150">
 <!-- 결과에 따라 버튼 보여주기 -->
-<div th:if="${jsonObject.get('result') == 0}">
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pmModal">PM 목록</button>
-    <div class="modal" id="pmModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">PM 찾기</h4><br>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <p>현재 위치의 도로명 주소를 입력해주세요. (예시 : 계남, 계남로)</p>
-                    <input type="text" name="keyword" id="pmKeyword">
-                    <div id="pmError" class="text-danger"></div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="searchPm()">검색</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div th:if="${jsonObject.get('result') == 1}">
-    <button type="button" class="btn btn-primary" onclick="location.href='/user/product/list'">온라인 매장</button>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#shopModal">오프라인 매장</button>
-    <div class="modal" id="shopModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">매장 찾기</h4><br>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <p>현재 위치의 도로명 주소를 입력해주세요. (예시 : 계남, 계남로)</p>
-                    <input type="text" name="keyword" id="shopKeyword">
-                    <div id="shopError" class="text-danger"></div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="searchShop()">검색</button>
+    <div th:if="${jsonObject.get('result').toString() eq 'hmo'}">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pmModal">PM 목록</button>
+        <div class="modal" id="pmModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">PM 찾기</h4><br>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>현재 위치의 도로명 주소를 입력해주세요. (예시 : 계남, 계남로)</p>
+                        <input type="text" name="keyword" id="pmKeyword">
+                        <div id="pmError" class="text-danger"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="searchPm()">검색</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <div th:if="${jsonObject.get('result').toString() eq 'hmx'}">
+        <button type="button" class="btn btn-primary" onclick="location.href='/user/product/list'">온라인 매장</button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#shopModal">오프라인 매장</button>
+        <div class="modal" id="shopModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">매장 찾기</h4><br>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>현재 위치의 도로명 주소를 입력해주세요. (예시 : 계남, 계남로)</p>
+                        <input type="text" name="keyword" id="shopKeyword">
+                        <div id="shopError" class="text-danger"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="searchShop()">검색</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function searchPm() {
+            var keyword = document.getElementById('pmKeyword').value;
+
+            if (!keyword) {
+                document.getElementById('pmError').innerHTML = '검색어를 입력해 주세요.';
+                return;
+            }
+
+            document.getElementById('pmError').innerHTML = '';
+
+            var url = '/user/pm/list?keyword=' + encodeURIComponent(keyword);
+
+            window.location.href = url;
+        }
+
+        function searchShop() {
+            var keyword = document.getElementById('shopKeyword').value;
+
+            if (!keyword) {
+                document.getElementById('shopError').innerHTML = '검색어를 입력해주세요.';
+                return;
+            }
+
+            document.getElementById('shopError').innerHTML = '';
+
+            var url = '/user/shop/list?keyword=' + encodeURIComponent(keyword);
+
+            window.location.href = url;
+        }
+    </script>
 </div>
-<script>
-    function searchPm() {
-        var keyword = document.getElementById('pmKeyword').value;
-
-        if (!keyword) {
-            document.getElementById('pmError').innerHTML = '검색어를 입력해 주세요.';
-            return;
-        }
-
-        document.getElementById('pmError').innerHTML = '';
-
-        var url = '/user/pm/list?keyword=' + encodeURIComponent(keyword);
-
-        window.location.href = url;
-    }
-
-    function searchShop() {
-        var keyword = document.getElementById('shopKeyword').value;
-
-        if (!keyword) {
-            document.getElementById('shopError').innerHTML = '검색어를 입력해주세요.';
-            return;
-        }
-
-        document.getElementById('shopError').innerHTML = '';
-
-        var url = '/user/shop/list?keyword=' + encodeURIComponent(keyword);
-
-        window.location.href = url;
-    }
-</script>
 </body>
 </html>

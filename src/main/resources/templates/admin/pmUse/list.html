@@ -62,6 +62,8 @@
                         <table class="table table-hover">
                             <thead>
                             <tr>
+                                <th>이름</th>
+                                <th>사진</th>
                                 <th>출발 장소</th>
                                 <th>도착 장소</th>
                                 <th>시작 시간</th>
@@ -72,6 +74,8 @@
                             <tbody>
                             <tr th:each="pmUseDTOS:${pmUseDTOS}">
                                 <input type="hidden" th:value="${pmUseDTOS.pmUseId}">
+                                <td th:text="${pmUseDTOS.pm.name}"></td>
+                                <td><img th:src="|/images/pm/@{${pmUseDTOS.pm.img}}|" style="max-width: 100px; min-width: 100px" alt="PM 이미지 없음"></td>
                                 <td th:text="${pmUseDTOS.startLocation}"></td>
                                 <td th:text="${pmUseDTOS.finishLocation}"></td>
                                 <td th:text="${#temporals.format(pmUseDTOS.regDate, 'yy/MM/dd HH:mm')}"></td>

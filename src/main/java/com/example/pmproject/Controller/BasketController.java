@@ -40,7 +40,7 @@ public class BasketController {
         MemberDTO memberDTO = memberService.listOne(userDetails.getUsername());
         String name = memberDTO.getName();
         Page<BasketDTO> basketDTOS;
-        if ("/admin/basket".equals(RequestContextHolder.currentRequestAttributes().getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE, RequestAttributes.SCOPE_REQUEST))) {
+        if ("/admin/basket/list".equals(RequestContextHolder.currentRequestAttributes().getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE, RequestAttributes.SCOPE_REQUEST))) {
             basketDTOS = basketService.basketDTOS("", pageable);
         }else {
             basketDTOS = basketService.basketDTOS(name, pageable);

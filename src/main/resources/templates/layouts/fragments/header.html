@@ -39,14 +39,6 @@
                     <li sec:authorize="isAuthenticated()" class="nav-item">
                         <a class="nav-link" href="/user/pm/rent">PM 대여</a>
                     </li>
-                    <li sec:authorize="isAuthenticated()" class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">멤버</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#pmModal">PM 목록</a></li>
-                            <li><a class="dropdown-item" href="/user/product/list">헬멧 목록</a></li>
-                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#shopModal">매장 목록</a></li>
-                        </ul>
-                    </li>
                     <li sec:authorize="isAuthenticated()" class="nav-item">
                         <a class="nav-link" href="/user/info">마이페이지</a>
                     </li>
