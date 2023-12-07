@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 public class YOLOv5Controller {
@@ -26,7 +28,26 @@ public class YOLOv5Controller {
 
     @PostMapping("/user/pm/rent")
     public String result(@RequestParam("imgFile")MultipartFile imgFile, Model model) throws Exception {
-        flask.requestToFlask(imgFile);
+        JSONObject jsonObject = flask.requestToFlask(imgFile);
+        List jsonResult = (List) jsonObject.get("result");
+        // result 리스트에 "hmo"가 포함되어 있는지 확인
+        boolean containsHmo = false;
+        String result;
+
+        for (Object item : jsonResult) {
+            if (item.equals("hmo")) {
+                containsHmo = true;
+                break;
+            }
+        }
+
+        if (containsHmo) {
+            result = "hmo";
+        } else {
+            result = "hmx";
+        }
+
+        model.addAttribute("jsonObject", result);
 
         return "pm/rentResult";
     }

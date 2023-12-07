@@ -12,9 +12,9 @@
 </head>
 <body>
 <div layout:fragment="content">
-<img src="/images/result.jpg" width="150" height="150">
-<!-- 결과에 따라 버튼 보여주기 -->
-    <div th:if="${jsonObject.get('result').toString() eq 'hmo'}">
+    <img src="/images/result.jpg" width="150" height="150">
+    <!-- 결과에 따라 버튼 보여주기 -->
+    <div th:if="${jsonObject == 'hmo'}">
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pmModal">PM 목록</button>
         <div class="modal" id="pmModal">
             <div class="modal-dialog">
@@ -35,7 +35,7 @@
             </div>
         </div>
     </div>
-    <div th:if="${jsonObject.get('result').toString() eq 'hmx'}">
+    <div th:if="${jsonObject == 'hmx'}">
         <button type="button" class="btn btn-primary" onclick="location.href='/user/product/list'">온라인 매장</button>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#shopModal">오프라인 매장</button>
         <div class="modal" id="shopModal">

@@ -86,7 +86,7 @@
                                             <div th:id="'modifyAskComment'+${askComment.askCommentId}" class="collapse">
                                                 <form th:action="@{/admin/ask/comment/modify(askId=${askComment.ask.askId}, askCommentId=${askComment.askCommentId})}" th:method="post">
                                                     <div class="form-group" style="margin-bottom: 10px">
-                                                        <input type="hidden" name="askId" th:value="${askCommnet.ask.askId}" readonly>
+                                                        <input type="hidden" name="askId" th:value="${askComment.ask.askId}" readonly>
                                                         <input type="hidden" name="askCommentId" th:value="${askComment.askCommentId}" readonly>
                                                         <textarea name="content" class="form-control" rows="3" th:value="${askComment.content}"></textarea>
                                                     </div>

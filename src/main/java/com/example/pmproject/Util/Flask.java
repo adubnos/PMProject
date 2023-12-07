@@ -8,7 +8,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -16,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileOutputStream;
 import java.util.Base64;
-import java.util.logging.Handler;
 
 @Component
 @RequiredArgsConstructor
@@ -35,7 +33,7 @@ public class Flask {
         return Base64.getEncoder().encodeToString(bytes);
     }
 
-    public void requestToFlask(MultipartFile file) throws Exception {
+    public JSONObject requestToFlask(MultipartFile file) throws Exception {
         RestTemplate restTemplate = new RestTemplate();
         String originalFileName = file.getOriginalFilename();
         String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
@@ -64,6 +62,7 @@ public class Flask {
             fos.write(decodedImageDate);
         }
 
+        return jsonObject;
 
     }
 }
