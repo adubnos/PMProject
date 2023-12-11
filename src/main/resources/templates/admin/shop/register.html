@@ -42,7 +42,7 @@
                             <p class="text-danger" th:if="${#fields.hasErrors('location')}" th:errors="*{location}"></p>
                         </div>
                         <div class="mb-3">
-                            <label for="tel" class="form-label">매장 전화번호(-없이 숫자만 입력 : </label>
+                            <label for="tel" class="form-label">매장 전화번호(-없이 숫자만 입력) : </label>
                             <input type="text" class="form-control" id="tel" name="tel" oninput="restrictToNumbers(this)" th:field="*{tel}">
                             <p class="text-danger" th:if="${#fields.hasErrors('tel')}" th:errors="*{tel}"></p>
                         </div>
