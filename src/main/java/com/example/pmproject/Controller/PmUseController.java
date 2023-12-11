@@ -7,6 +7,7 @@ import com.example.pmproject.Service.MemberService;
 import com.example.pmproject.Service.PmService;
 import com.example.pmproject.Service.PmUseService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -27,6 +28,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequiredArgsConstructor
 public class PmUseController {
 
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
+    @Value("${cloud.aws.region.static}")
+    private String region;
+    @Value("${pmImgUploadLocation}")
+    private String folder;
     private final PmUseService pmUseService;
     private final MemberService memberService;
 
@@ -51,6 +58,9 @@ public class PmUseController {
             endPage=startPage;
         }
 
+        model.addAttribute("bucket", bucket);
+        model.addAttribute("region", region);
+        model.addAttribute("folder", folder);
         model.addAttribute("pmUseDTOS", pmUseDTOS);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);

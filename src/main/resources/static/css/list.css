@@ -1,3 +1,11 @@
+.navbar {
+    background-color: #1a1a1a !important;
+    font-family: none !important;
+    font-size:12pt !important;
+    font-weight: bold !important;
+
+}
+
 h2{
     color: orange;  /*제목*/
     text-align: center;

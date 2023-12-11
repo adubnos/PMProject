@@ -1,3 +1,12 @@
+.navbar {
+    background-color: #1a1a1a !important;
+    font-family: none !important;
+    font-size:12pt !important;
+    font-weight: bold !important;
+
+}
+
+
 a.card.product-card {
     text-decoration: none;
     color: inherit;

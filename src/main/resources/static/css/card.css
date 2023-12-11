@@ -1,6 +1,20 @@
 h2{
-    color: orange;
+    color: #1c4357;
 }
+/* 헤더 스타일 */
+.navbar {
+    background-color: #1a1a1a !important;
+    font-family: none !important;
+    font-size:12pt !important;
+    font-weight: bold !important;
+
+}
+h1{
+    color: #151515;
+    font-weight: bold;
+    text-align: center;
+}
+
 body {
     font-family: "Malgun Gothic";
     font-size:10pt;

@@ -1,43 +1,91 @@
+.navbar {
+    background-color: #1a1a1a !important;
+    font-family: none !important;
+    font-size:12pt !important;
+    font-weight: bold !important;
+
+}
+
+
+.p-8{
+    padding-top: 100px;
+}
+.bg{
+    background-color: #7fa3a9;
+}
+
 img {
     display: block;
     margin-left: auto;
     margin-right: auto;
 }
-h2 {
-    text-align: center;
+.parent-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+h2, .col-sm-4, .image-container {
+    flex: 1;
+    box-sizing: border-box;
+    margin: 0; /* 기본 margin 제거 */
 }
 .container {
     /* .container 클래스의 스타일 지정 */
-    background-color: #f8f9fa;
-    padding: 20px;
-    border: 1px solid #dee2e6;
-    border-radius: 10px;
-}
-
-.row {
-    /* .row 클래스의 스타일 지정 */
-    margin-top: 15px;
+    background-color: #7fa3a9;
+    padding: 0px;
+    border-radius: 0px;
+    max-width: none;
+    justify-content: center;
 }
 
 .col-sm-4 {
     /* .col-sm-4 클래스의 스타일 지정 */
     background-color: #ffffff;
-    padding: 15px;
-    border: 1px solid #ced4da;
-    border-radius: 5px;
-    margin-bottom: 15px;
+    padding-top: 20px;
+    padding-bottom: 15px;
+    text-align: center; /* 텍스트를 중앙 정렬 */
+    border: 10px solid #eaeaea;
+    border-radius: 0px;
+    font-family: 나눔고딕;
+
+}
+h2 {
+    text-align: center;
+    padding-top: 80px;
+    padding-bottom: 80px;
+    justify-content: center;
+    background-color: #eaeaea;
+    font-size:40px;
+    font-family: 나눔고딕;
 }
 
 h3 {
     /* h3 태그의 스타일 지정 */
-    color: #ffb71b;
+    color: #000000;
+    justify-content: center;
+    font-family: 나눔고딕;
+
+}
+p1 {
+    /* p 태그의 스타일 지정 */
+    color: #ffffff;
+    font-family: 나눔고딕;
+    margin:0;
 }
 
 p {
     /* p 태그의 스타일 지정 */
-    color: #6c757d;
-}
+    color: #252525;
+    font-family: 나눔고딕;
+    margin:0;
+    align-items: center;
+    justify-content: center; /* 수평 정렬 */
+    align-items: center; /* 수직 정렬 */
 
+}
+.row{
+    border: 20px solid #ffffff;
+}
 .event-img {
     /* 배경 이미지로 GIF를 사용하는 스타일 */
     background-image: url('https://static.wixstatic.com/media/e73873_59ccedc7e057488fbc3265742ac5ff11~mv2.gif');
@@ -54,14 +102,18 @@ p {
 }
 
 .news-block {
-    border: 1px solid #ddd; /* 뉴스 블록을 구분하기 위한 테두리 스타일 */
     padding: 15px;
     margin-bottom: 20px;
+    justify-content: center;
+}
+.news-block a, .news-block a:visited, .news-block a:hover, .news-block a:active {
+    text-decoration: none;
+    justify-content: center;
 }
 
 .news-image {
     max-width: 100%;
-    height: auto;
+    height: 200px;
     margin-bottom: 10px;
 }
 
@@ -71,13 +123,33 @@ p {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 500px; /* 이미지 높이에 맞게 조절 */
+    height: 800px; /* 이미지 높이에 맞게 조절 */
     text-align: center; /* 텍스트를 중앙 정렬 */
     color: #ffffff; /* 텍스트 색상 */
-    padding-top: 100px; /* 상단 여백 조절 */
+    padding: 150px 100px; /* 상단 여백 조절 */
     font-size: 20px;
+
 }
 .image-container h4 {
     font-size: 34px; /* 원하는 폰트 크기로 조절 */
     margin-bottom: 10px /* 부분 사이 여백 조절 */;
+    padding: 10px; /* 텍스트와 테두리 사이의 간격 설정 */
+    border: 4px;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+
+
+}
+.image-container p{
+    background: rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+}
+.modal {
+    font-family: "Malgun Gothic";
+    font-size:10pt; /*modal 글자 모양 및 크기 */
+}
+
+.modal-footer {
+    display: flex;      /*modal 하단 버튼 중앙 위치*/
+    justify-content: center;
 }

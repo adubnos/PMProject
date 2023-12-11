@@ -75,7 +75,7 @@
                             <tr th:each="pmUseDTOS:${pmUseDTOS}">
                                 <input type="hidden" th:value="${pmUseDTOS.pmUseId}">
                                 <td th:text="${pmUseDTOS.pm.name}"></td>
-                                <td><img th:src="|/images/pm/@{${pmUseDTOS.pm.img}}|" style="max-width: 100px; min-width: 100px" alt="PM 이미지 없음"></td>
+                                <td><img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}/${pmUseDTOS.pm.img}|" style="max-width: 100px; min-width: 100px" alt="PM 이미지 없음"></td>
                                 <td th:text="${pmUseDTOS.startLocation}"></td>
                                 <td th:text="${pmUseDTOS.finishLocation}"></td>
                                 <td th:text="${#temporals.format(pmUseDTOS.regDate, 'yy/MM/dd HH:mm')}"></td>

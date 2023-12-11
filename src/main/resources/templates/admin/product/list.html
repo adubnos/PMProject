@@ -58,21 +58,6 @@
             </nav>
             <main role="main" class="col-sm-9 ml-sm-auto px-4">
                 <button type="button" class="btn btn-primary mt-5" onclick="location.href='/admin/product/register'">제품 등록</button>
-                <div class="dropdown text-end">
-                    <button type="button" class="btn btn-outline-dark dropdown-toggle" id="sortDropdown" data-bs-toggle="dropdown">
-                        정렬
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#" onclick="sortProducts('asc')">낮은 가격순</a></li>
-                        <li><a class="dropdown-item" href="#" onclick="sortProducts('desc')">높은 가격순</a></li>
-                    </ul>
-                </div>
-                <script type="text/javascript">
-                    function sortProducts(order) {
-                        var url = '/admin/product/list?page=' + [[${productDTOS.number + 1}]] + '&order=' + order;
-                        window.location.href = url;
-                    }
-                </script>
                 <div class="row mb-5">
                     <div class="col-sm-12">
                         <table class="table table-hover">

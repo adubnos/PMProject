@@ -73,7 +73,7 @@
               <tbody>
               <tr th:each="basketDTOS:${basketDTOS}">
                 <input type="hidden" th:value="${basketDTOS.basketId}">
-                <td><img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}/${basketDTOS.img}|" style="max-width: 100px; min-width: 100px" alt="제품 이미지 없음"></td>
+                <td><img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}/${basketDTOS.product.img}|" style="max-width: 100px; min-width: 100px" alt="제품 이미지 없음"></td>
                 <td th:text="${basketDTOS.product.name}"></td>
                 <td th:text="${basketDTOS.quantity}"></td>
                 <td th:text="${basketDTOS.product.price}"></td>
