@@ -32,33 +32,41 @@
                 <div class="card-body">
                     <p class="lead" th:text="|가격 : ${productDTO.price}원|">가격: 5,000원</p>
                     <p class="text-danger" th:if="${error}" th:value="${error}"></p>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#addToCart">장바구니에 담기🛒</button>
-                    <div id="addToCart" class="collapse">
-                        <form th:action="@{/user/basket/add}" th:method="post">
-                            <div class="form-group" style="margin-bottom: 30px; margin-top: 10px;">
-                                <p>담을 수량 : </p>
-                                <input type="hidden" name="productId" th:value="${productDTO.productId}" readonly>
-                                <input type="text" name="quantity" class="form-control" oninput="restrictToNumbers(this)" style="max-width: 20%">
-                            </div>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addToCartModal">담기</button>
-                            <button type="reset" class="btn btn-secondary">취소</button>
-                            <div class="modal" tabindex="-1" role="dialog" id="addToCartModal">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">장바구니에 담겼습니다</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addToCartModal">주문 하기 🛒</button>
+                    <div id="addToCartModal" class="modal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">주문 하기 🛒</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form th:action="@{/user/basket/add}" th:method="post">
+                                        <div class="form-group" style="margin-bottom: 30px; margin-top: 10px;">
+                                            <p>담을 수량 : </p>
+                                            <input type="hidden" name="productId" th:value="${productDTO.productId}" readonly>
+                                            <input type="text" id="quantity" name="quantity" class="form-control" oninput="restrictToNumbers(this)" style="max-width: 20%">
+                                            <div id="quantityError" class="text-danger"></div>
                                         </div>
-                                        <div class="modal-body">
-                                            <p>제품이 성공적으로 장바구니에 담겼습니다.</p>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">확인</button>
-                                        </div>
-                                    </div>
+                                        <button type="submit" class="btn btn-primary" onclick="return enterQuantity()">담기</button>
+
+                                        <script>
+                                            function enterQuantity() {
+                                                var quantity = document.getElementById('quantity').value;
+
+                                                if (!quantity) {
+                                                    document.getElementById('quantityError').innerHTML='수량을 입력해 주세요.';
+                                                    return false;
+                                                }
+
+                                                document.getElementById('quantityError').innerHTML='';
+                                            }
+                                        </script>
+                                    </form>
                                 </div>
                             </div>
-                        </form>
+                        </div>
+                    </div>
                     </div>
                     <div class="mt-3">
                         <h4>제품 설명</h4>
@@ -83,9 +91,9 @@
                             <div th:each="comment : ${productComment}" class="mb-3 mb-3">
                                 <input type="hidden" th:value="${comment.product.productId}">
                                 <input type="hidden" th:value="${comment.productCommentId}">
-                                <p th:value="${comment.content}">testcontent</p>
-                                <small class="text-muted" th:value="${comment.member.name}">sample</small><br>
-                                <small class="text-muted" th:value="${#temporals.format(comment.regDate, 'yyyy/MM/dd')}">2023-10-25</small><br>
+                                <p th:text="${comment.content}">testcontent</p>
+                                <small class="text-muted" th:text="${comment.member.name}">sample</small><br>
+                                <small class="text-muted" th:text="${#temporals.format(comment.regDate, 'yyyy/MM/dd')}">2023-10-25</small><br>
                                 <button type="button" class="btn btn-danger mt-3" th:if="${name eq comment.member.name or role.toString() eq 'ROLE_ADMIN'}" th:onclick="|location.href='@{/product/comment/delete(productCommentId=${comment.productCommentId}, productId=${productDTO.productId})}'|">삭제</button>
                                 <button type="button" class="btn btn-secondary mt-3" th:if="${name eq comment.member.name}" data-bs-toggle="collapse" th:data-bs-target="'#modifyComment'+${comment.productCommentId}">수정</button>
                                 <div th:id="'modifyComment'+${comment.productCommentId}" class="collapse">
