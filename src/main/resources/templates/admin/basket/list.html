@@ -75,9 +75,9 @@
                 <input type="hidden" th:value="${basketDTOS.basketId}">
                 <td><img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}/${basketDTOS.product.img}|" style="max-width: 100px; min-width: 100px" alt="제품 이미지 없음"></td>
                 <td th:text="${basketDTOS.product.name}"></td>
-                <td th:text="${basketDTOS.quantity}"></td>
-                <td th:text="${basketDTOS.product.price}"></td>
-                <td th:text="${basketDTOS.tPrice}"></td>
+                <td th:text="${#numbers.formatInteger(basketDTOS.quantity, 0, 'COMMA')}"></td>
+                <td th:text="${#numbers.formatInteger(basketDTOS.product.price, 0, 'COMMA')}"></td>
+                <td th:text="${#numbers.formatInteger(basketDTOS.tPrice, 0, 'COMMA')}"></td>
                 <td>
                   <span>
                     <button type="button" class="btn btn-danger" th:onclick="|location.href='@{/admin/basket/delete(shopId=${shopDTOS.shopId})'|">삭제</button>

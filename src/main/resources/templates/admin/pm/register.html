@@ -39,6 +39,11 @@
                             </a>
                         </li>
                         <li class="nav-item" style="text-align: center">
+                            <a class="nav-link" href="/admin/basket/list">
+                                주문 목록
+                            </a>
+                        </li>
+                        <li class="nav-item" style="text-align: center">
                             <a class="nav-link" href="/admin/shop/list">
                                 매장 목록
                             </a>
@@ -60,9 +65,7 @@
                                 <div class="card-body">
                                     <div class="mb-3 mt-3">
                                         <label for="name" class="form-label">PM 이름 : </label>
-                                        <input type="text" class="form-control" id="name"
-                                               placeholder="PM 명을 입력하세요" name="name" th:field="*{name}">
-                                        <p class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+                                        <input type="text" class="form-control" id="name" placeholder="PM 명을 입력하세요" name="name" th:field="*{name}" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="type" class="form-lable">타입 : </label>
@@ -73,9 +76,8 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="location" class="form-label">위치 : </label>
-                                        <input type="text" class="form-control" id="location" name="location" th:field="*{location}">
-                                        <p class="text-danger" th:if="${#fields.hasErrors('location')}" th:errors="*{location}"></p>
+                                        <label for="location" class="form-label">위치 (도로명 주소) : </label>
+                                        <input type="text" class="form-control" id="location" name="location" th:field="*{location}" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="img" class="form-label">PM 이미지 : </label>

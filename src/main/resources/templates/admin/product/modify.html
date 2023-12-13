@@ -51,6 +51,11 @@
                             </a>
                         </li>
                         <li class="nav-item" style="text-align: center">
+                            <a class="nav-link" href="/admin/basket/list">
+                                주문 목록
+                            </a>
+                        </li>
+                        <li class="nav-item" style="text-align: center">
                             <a class="nav-link" href="/admin/shop/list">
                                 매장 목록
                             </a>
@@ -73,18 +78,15 @@
                                 <div class="card-body">
                                     <div class="mb-3 mt-3">
                                         <label for="name" class="form-label">제품 이름 : </label>
-                                        <input type="text" class="form-control" id="name" placeholder="제품 명을 입력하세요" name="name" th:field="*{name}">
-                                        <p class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+                                        <input type="text" class="form-control" id="name" placeholder="제품 명을 입력하세요" name="name" th:field="*{name}" required>
                                     </div>
                                     <div class="mb-3 mt-3">
                                         <label for="content" class="form-label">제품 설명 : </label>
-                                        <textarea class="form-control" id="content" placeholder="제품 설명을 입력하세요" name="content" th:field="*{content}"></textarea>
-                                        <p class="text-danger" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
+                                        <textarea class="form-control" id="content" placeholder="제품 설명을 입력하세요" name="content" th:field="*{content}" required></textarea>
                                     </div>
                                     <div class="mb-3">
                                         <label for="price" class="form-label">가격 : </label>
-                                        <input type="text" class="form-control" id="price" name="price" th:field="*{price}">
-                                        <p class="text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></p>
+                                        <input type="text" class="form-control" id="price" name="price" th:field="*{price}" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="img" class="form-label">제품 이미지 : </label>

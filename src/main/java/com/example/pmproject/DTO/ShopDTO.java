@@ -2,6 +2,7 @@ package com.example.pmproject.DTO;
 
 import lombok.*;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
@@ -14,15 +15,16 @@ public class ShopDTO {
 
     private Long shopId;
 
-    @NotNull(message = "매장 이름은 필수 입력 사항입니다.")
+    @NotEmpty(message = "매장 이름은 필수 입력 사항입니다.")
     private String name;
 
-    @NotNull(message = "매장 설명은 필수 입력 사항입니다.")
+    @NotEmpty(message = "매장 설명은 필수 입력 사항입니다.")
     private String content;
 
-    @NotNull(message = "매장 주소는 필수 입력 사항입니다.")
+    @NotEmpty(message = "매장 주소는 필수 입력 사항입니다.")
     private String location;
 
+    @NotNull(message = "매장 전화 번호는 필수 입력 사항입니다.")
     private String tel;
 
     private String img;
