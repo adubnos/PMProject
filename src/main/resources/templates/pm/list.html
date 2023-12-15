@@ -63,18 +63,18 @@
                                 </table>
                                 <div class="container mt-3">
                                     <ul class="pagination mt-3">
-                                        <li class="page-item"><a class="page-link" th:href="@{/member/pm/list(page=1)}"><<</a></li>
-                                        <li class="page-item"><a class="page-link" th:href="${pmDTOS.first} ? '#' : @{/member/pm/list(page=${pmDTOS.number})}"><</a></li>
+                                        <li class="page-item"><a class="page-link" th:href="@{/user/pm/list(page=1)}"><<</a></li>
+                                        <li class="page-item"><a class="page-link" th:href="${pmDTOS.first} ? '#' : @{/user/pm/list(page=${pmDTOS.number})}"><</a></li>
                                         <span th:each="page:${#numbers.sequence(startPage, endPage)}">
                                     <li class="page-item active" th:if="${page == pmDTOS.number+1}">
                                         <a class="page-link" href="#" th:text="${page}"></a>
                                     </li>
                                     <li class="page-item" th:unless="${page == pmDTOS.number+1}">
-                                        <a class="page-link" th:href="@{/member/pm/list(page=${page})}" th:text="${page}"></a>
+                                        <a class="page-link" th:href="@{/user/pm/list(page=${page})}" th:text="${page}"></a>
                                     </li>
                                 </span>
-                                        <li class="page-item"><a class="page-link" th:href="${pmDTOS.last} ? '#' : @{/member/pm/list(page=${pmDTOS.number+2})}">></a></li>
-                                        <li class="page-item"><a class="page-link" th:href="${pmDTOS.last} ? '#' : @{/member/pm/list(page=${pmDTOS.totalPages})}">>></a></li>
+                                        <li class="page-item"><a class="page-link" th:href="${pmDTOS.last} ? '#' : @{/user/pm/list(page=${pmDTOS.number+2})}">></a></li>
+                                        <li class="page-item"><a class="page-link" th:href="${pmDTOS.last} ? '#' : @{/user/pm/list(page=${pmDTOS.totalPages})}">>></a></li>
                                     </ul>
                                 </div>
                             </div>

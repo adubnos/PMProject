@@ -22,21 +22,6 @@
         <h2>온라인 쇼핑몰</h2>
         <p>구매를 쉽고 빠르게 안전하게 이용하세요</p>
         <hr>
-        <div class="dropdown text-end">
-            <button type="button" class="btn btn-outline-dark dropdown-toggle" id="sortDropdown" data-bs-toggle="dropdown">
-                정렬
-            </button>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#" onclick="sortProducts('asc')">낮은 가격순</a></li>
-                <li><a class="dropdown-item" href="#" onclick="sortProducts('desc')">높은 가격순</a></li>
-            </ul>
-        </div>
-        <script type="text/javascript">
-            function sortProducts(order) {
-                window.location.href = '/user/product/list?page=' + [[${productDTOS.number + 1}]] + '&order=' + order;
-            }
-        </script>
-        <hr>
         <div class="row" id="productCardContainer">
             <div class="col-sm-4" th:each="productDTOS:${productDTOS}">
                 <a class="card product-card" th:href="@{/user/product/detail(productId=${productDTOS.productId})}">
@@ -52,18 +37,18 @@
         <hr>
         <div class="container mt-4">
             <ul class="pagination">
-                <li class="page-item"><a class="page-link" th:href="@{/product/list(page=1)}"><<</a></li>
-                <li class="page-item"><a class="page-link" th:href="${productDTOS.first} ? '#' : @{/product/list(page=${productDTOS.number})}"><</a></li>
+                <li class="page-item"><a class="page-link" th:href="@{/user/product/list(page=1)}"><<</a></li>
+                <li class="page-item"><a class="page-link" th:href="${productDTOS.first} ? '#' : @{/user/product/list(page=${productDTOS.number})}"><</a></li>
                 <span th:each="page:${#numbers.sequence(startPage, endPage)}">
                     <li class="page-item active" th:if="${page == productDTOS.number+1}">
                         <a class="page-link" href="#" th:text="${page}"></a>
                     </li>
                     <li class="page-item" th:unless="${page == productDTOS.number+1}">
-                        <a class="page-link" th:href="@{/product/list(page=${page})}" th:text="${page}"></a>
+                        <a class="page-link" th:href="@{/user/product/list(page=${page})}" th:text="${page}"></a>
                     </li>
                 </span>
-                <li class="page-item"><a class="page-link" th:href="${productDTOS.last} ? '#' : @{/product/list(page=${productDTOS.number+2})}">></a></li>
-                <li class="page-item"><a class="page-link" th:href="${productDTOS.last} ? '#' :@{/product/list(page=${productDTOS.totalPages})}">>></a></li>
+                <li class="page-item"><a class="page-link" th:href="${productDTOS.last} ? '#' : @{/user/product/list(page=${productDTOS.number+2})}">></a></li>
+                <li class="page-item"><a class="page-link" th:href="${productDTOS.last} ? '#' :@{/user/product/list(page=${productDTOS.totalPages})}">>></a></li>
             </ul>
         </div>
     </div>

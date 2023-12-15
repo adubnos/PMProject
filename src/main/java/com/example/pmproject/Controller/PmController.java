@@ -66,16 +66,6 @@ public class PmController {
         }
     }
 
-    @GetMapping("/admin/pm/detail")
-    public String pmDetail(Long pmId, Model model) {
-        PmDTO pmDTO=pmService.listOne(pmId);
-        List<PmUseDTO> pmUseDTOList=pmUseService.pmUseList(pmId);
-
-        model.addAttribute("pmDTO", pmDTO);
-        model.addAttribute("pmUseDTO", pmUseDTOList);
-        return "admin/pm/detail";
-    }
-
     @GetMapping("/admin/pm/register")
     public String pmRegisterForm(PmDTO pmDTO) {
         return "admin/pm/register";

@@ -34,18 +34,18 @@
         </div>
         <div class="container mt-3">
             <ul class="pagination mt-3">
-                <li class="page-item"><a class="page-link" th:href="@{/shop/list(page=1)}"><<</a></li>
-                <li class="page-item"><a class="page-link" th:href="${shopDTOS.first} ? '#' : @{/shop/list(page=${shopDTOS.number})}"><</a></li>
+                <li class="page-item"><a class="page-link" th:href="@{/user/shop/list(page=1)}"><<</a></li>
+                <li class="page-item"><a class="page-link" th:href="${shopDTOS.first} ? '#' : @{/user/shop/list(page=${shopDTOS.number})}"><</a></li>
                 <span th:each="page:${#numbers.sequence(startPage, endPage)}">
                     <li class="page-item active" th:if="${page == shopDTOS.number+1}">
                         <a class="page-link" href="#" th:text="${page}"></a>
                     </li>
                     <li class="page-item" th:unless="${page == shopDTOS.number+1}">
-                        <a class="page-link" th:href="@{/shop/list(page=${page})}" th:text="${page}"></a>
+                        <a class="page-link" th:href="@{/user/shop/list(page=${page})}" th:text="${page}"></a>
                     </li>
                 </span>
-                <li class="page-item"><a class="page-link" th:href="${shopDTOS.last} ? '#' : @{/shop/list(page=${shopDTOS.number+2})}">></a></li>
-                <li class="page-item"><a class="page-link" th:href="${shopDTOS.last} ? '#' :@{/shop/list(page=${shopDTOS.totalPages})}">>></a></li>
+                <li class="page-item"><a class="page-link" th:href="${shopDTOS.last} ? '#' : @{/user/shop/list(page=${shopDTOS.number+2})}">></a></li>
+                <li class="page-item"><a class="page-link" th:href="${shopDTOS.last} ? '#' :@{/user/shop/list(page=${shopDTOS.totalPages})}">>></a></li>
             </ul>
         </div>
     </div>

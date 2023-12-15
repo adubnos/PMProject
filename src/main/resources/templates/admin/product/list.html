@@ -58,7 +58,7 @@
             </nav>
             <main role="main" class="col-sm-9 ml-sm-auto px-4">
                 <button type="button" class="btn btn-primary mt-5" onclick="location.href='/admin/product/register'">제품 등록</button>
-                <div class="row mb-5">
+                <div class="row mt-5 mb-5">
                     <div class="col-sm-12">
                         <table class="table table-hover">
                             <thead>
@@ -78,8 +78,8 @@
                                 <td>
                                     <span>
                                         <button type="button" class="btn btn-outline-secondary" th:onclick="|location.href='@{/user/product/detail(productId=${productDTOS.productId})}'|">자세히</button>
-                                        <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/admin/product/modify(productId=${productDTOS.productId})'|">수정</button>
-                                        <button type="button" class="btn btn-danger" th:onclick="|location.href='@{/admin/product/delete(productId=${productDTOS.productId})'|">삭제</button>
+                                        <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/admin/product/modify(productId=${productDTOS.productId})}'|">수정</button>
+                                        <button type="button" class="btn btn-danger" th:onclick="|location.href='@{/admin/product/delete(productId=${productDTOS.productId})}'|">삭제</button>
                                     </span>
                                 </td>
                             </tr>

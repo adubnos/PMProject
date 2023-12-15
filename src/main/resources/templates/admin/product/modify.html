@@ -69,11 +69,10 @@
                 </div>
             </nav>
             <main role="main" class="col-sm-9 ml-sm-auto px-4">
-                <button type="button" class="btn btn-primary mt-5" onclick="location.href='/admin/pm/register'">PM 등록</button>
                 <div class="row mb-5">
                     <div class="col-sm-9">
                         <form th:action="@{/admin/product/modify}" method="post" enctype="multipart/form-data" th:object="${productDTO}">
-                            <div class="card mb-5">
+                            <div class="card mt-5 mb-5">
                                 <div class="card-header"><h2>제품 수정</h2></div>
                                 <div class="card-body">
                                     <div class="mb-3 mt-3">
